@@ -1,0 +1,78 @@
+Array
+(
+    [series_id] => 533830
+    [category_id] => 10183
+    [geoset_id] => 3321
+    [relation_id] => 1590
+)
+=====================
+FIELDS: 
+Array
+(
+    [series_id] => array (
+  'series_id' => 'ELEC.PLANT.GEN.70-WAT-ALL.M',
+  'name' => 'Net generation : Swan Lake (70) : conventional hydroelectric : all primemovers : monthly',
+  'units' => 'megawatthours',
+  'f' => 'M',
+  'copyright' => 'None',
+  'source' => 'EIA, U.S. Energy Information Administration',
+  'iso3166' => 'USA-AK',
+  'lat' => '55.613892',
+  'lon' => '-131.35417',
+  'geography' => 'USA-AK',
+  'start' => '200101',
+  'end' => '201607',
+  'last_updated' => '2016-09-26T16:33:50-04:00',
+  'latlon' => '55.613892,-131.35417',
+  'data' => 
+  array (
+    0 => 
+    array (
+      0 => '201607',
+      1 => 0,
+    ),
+    186 => 
+    array (
+      0 => '200101',
+      1 => 7548.775,
+    ),
+  ),
+)
+    [category_id] => array (
+  'category_id' => '0',
+  'parent_category_id' => '371',
+  'name' => 'Electricity',
+  'notes' => '',
+  'childseries' => 
+  array (
+  ),
+)
+    [geoset_id] => array (
+  'geoset_id' => 'ELEC.ASH_CONTENT.BIT-1.A',
+  'name' => 'Quality of fossil fuels in electricity generation : ash content : bituminous coal : electric utility : annual',
+  'units' => 'percent',
+)
+    [relation_id] => array (
+  'relation_id' => 'ELEC.ASH_CONTENT.BIT-94.A|SEC',
+  'name' => 'Quality of fossil fuels in electricity generation : ash content, bituminous coal (Annual) by sector',
+  'vertex' => 
+  stdClass::__set_state(array(
+     'name' => 'Quality of fossil fuels in electricity generation : ash content : bituminous coal : independent power producers (total) : annual',
+     'geoset_id' => 'ELEC.ASH_CONTENT.BIT-94.A',
+  )),
+  'f' => 'A',
+  'units' => 'tons',
+  'bar_facets' => 
+  array (
+    0 => 'electric utility non-cogen',
+    1 => 'electric utility cogen',
+  ),
+  'stack_facets' => NULL,
+  'geoset_ids' => 
+  array (
+    0 => 'ELEC.ASH_CONTENT.BIT-2.A',
+    1 => 'ELEC.ASH_CONTENT.BIT-3.A',
+  ),
+  'summable' => 'Y',
+)
+)
