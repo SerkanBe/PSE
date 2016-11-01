@@ -1,6 +1,6 @@
 <?php
 
-$handle = fopen("IN_DATA/ELEC.txt","r");
+$handle = fopen("../IN_DATA/ELEC.txt","r");
 $types = array();
 $fields = array();
 $curr_line = 0;
@@ -8,17 +8,19 @@ $curr_line = 0;
 echo "current line: ".$curr_line++.PHP_EOL;
 while(($buffer = fgets($handle)) !== FALSE) {
 
-	preg_match('!^{"(.*?)":!',$buffer,$match);
+	preg_match('!^{"series_id":"ELEC\.(GEN|SALE)!',$buffer,$match);
   
 	if(isset($match[1])) {
+		echo $buffer;
+		continue;
 		$type = $match[1];
-		
-		$to_print = "ELEC.PLANT.CONS_TOT.58929-DFO-ALL.M";
-		$object = (array) json_decode($buffer);
-		if($object['series_id'] == $to_print) {
-			echo $buffer.PHP_EOL;
-			return;
+		if($type == 'series_id') {
+			echo $buffer;
 		}
+		continue;
+		
+		$object = (array) json_decode($buffer);
+		echo $object['name'].PHP_EOL;
 		continue;
 		
 		if(isset($types[$type])) {	   
