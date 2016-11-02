@@ -10,13 +10,8 @@
     <directory>&#x2f;</directory>
     <parameters>
         <parameter>
-            <name>IN_DATA</name>
-            <default_value>D&#x3a;&#x5c;pentaho&#x5c;EIA&#x5c;IN_DATA</default_value>
-            <description/>
-        </parameter>
-        <parameter>
-            <name>OUT_FILES</name>
-            <default_value>D&#x3a;&#x5c;pentaho&#x5c;EIA&#x5c;OUT_FILES&#x5c;</default_value>
+            <name>DATA_INPUT</name>
+            <default_value>C&#x3a;&#x5c;PSE&#x5c;json_files</default_value>
             <description/>
         </parameter>
     </parameters>
@@ -110,7 +105,7 @@
     <defaultPathLeafToNull>N</defaultPathLeafToNull>
     <rownum_field/>
     <file>
-      <name>&#x24;&#x7b;IN_DATA&#x7d;&#x5c;category.txt</name>
+      <name>&#x24;&#x7b;DATA_INPUT&#x7d;&#x5c;category.txt</name>
       <filemask/>
       <exclude_filemask/>
       <file_required>N</file_required>
