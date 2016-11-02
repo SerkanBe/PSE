@@ -11,7 +11,7 @@
     <parameters>
         <parameter>
             <name>DATA_INPUT</name>
-            <default_value>C&#x3a;&#x5c;PSE&#x5c;json_files</default_value>
+            <default_value>C&#x3a;&#x5c;pentaho&#x5c;PSE&#x5c;json_files</default_value>
             <description/>
         </parameter>
     </parameters>
