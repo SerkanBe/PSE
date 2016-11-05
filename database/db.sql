@@ -19,13 +19,13 @@ USE `pse`;
 -- Exportiere Struktur von Tabelle pse.consumption
 CREATE TABLE IF NOT EXISTS `consumption` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `series_id` int(11) DEFAULT '0',
-  `period` int(11) DEFAULT '0',
-  `fuel` int(11) DEFAULT '0',
-  `sector` int(11) DEFAULT '0',
-  `amount` decimal(20,3) DEFAULT '0.000',
-  `unit` varchar(50) DEFAULT '0',
-  `state` int(11) DEFAULT '0',
+  `series_id` varchar(50) DEFAULT NULL,
+  `period` int(11) DEFAULT NULL,
+  `fuel` int(11) DEFAULT NULL,
+  `sector` int(11) DEFAULT NULL,
+  `amount` decimal(20,3) DEFAULT NULL,
+  `unit` varchar(50) DEFAULT NULL,
+  `state` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `cons_fuel` (`fuel`),
   KEY `cons_period` (`period`),
@@ -35,19 +35,19 @@ CREATE TABLE IF NOT EXISTS `consumption` (
   CONSTRAINT `cons_period` FOREIGN KEY (`period`) REFERENCES `period` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `cons_sector` FOREIGN KEY (`sector`) REFERENCES `gen_cons_sector` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `cons_state` FOREIGN KEY (`state`) REFERENCES `state` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8mb4;
 
 -- Daten Export vom Benutzer nicht ausgewählt
 -- Exportiere Struktur von Tabelle pse.elec_net_gen
 CREATE TABLE IF NOT EXISTS `elec_net_gen` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `series_id` int(11) DEFAULT '0',
-  `period` int(11) DEFAULT '0',
-  `fuel` int(11) DEFAULT '0',
-  `sector` int(11) DEFAULT '0',
-  `amount` decimal(20,3) DEFAULT '0.000',
-  `unit` varchar(50) DEFAULT '0',
-  `state` int(11) DEFAULT '0',
+  `series_id` varchar(50) DEFAULT NULL,
+  `period` int(11) DEFAULT NULL,
+  `fuel` int(11) DEFAULT NULL,
+  `sector` int(11) DEFAULT NULL,
+  `amount` decimal(20,3) DEFAULT NULL,
+  `unit` varchar(50) DEFAULT NULL,
+  `state` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `gen_period` (`period`),
   KEY `gen_fuel` (`fuel`),
@@ -63,12 +63,12 @@ CREATE TABLE IF NOT EXISTS `elec_net_gen` (
 -- Exportiere Struktur von Tabelle pse.elec_retail
 CREATE TABLE IF NOT EXISTS `elec_retail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `series_id` int(11) DEFAULT '0',
-  `period` int(11) DEFAULT '0',
-  `sector` int(11) DEFAULT '0',
-  `amount` decimal(20,3) DEFAULT '0.000',
-  `unit` varchar(50) DEFAULT '0',
-  `state` int(11) DEFAULT '0',
+  `series_id` varchar(50) DEFAULT NULL,
+  `period` int(11) DEFAULT NULL,
+  `sector` int(11) DEFAULT NULL,
+  `amount` decimal(20,3) DEFAULT NULL,
+  `unit` varchar(50) DEFAULT NULL,
+  `state` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `retail_period` (`period`),
   KEY `retail_sector` (`sector`),
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `elec_retail` (
   CONSTRAINT `retail_period` FOREIGN KEY (`period`) REFERENCES `period` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `retail_sector` FOREIGN KEY (`sector`) REFERENCES `retail_sector` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `retail_state` FOREIGN KEY (`state`) REFERENCES `state` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8mb4;
 
 -- Daten Export vom Benutzer nicht ausgewählt
 -- Exportiere Struktur von Tabelle pse.fuel
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `period` (
   `quarter` int(2) DEFAULT NULL,
   `year` int(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- Daten Export vom Benutzer nicht ausgewählt
 -- Exportiere Struktur von Tabelle pse.retail_sector
