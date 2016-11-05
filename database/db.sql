@@ -16,6 +16,29 @@
 CREATE DATABASE IF NOT EXISTS `pse` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `pse`;
 
+-- Exportiere Struktur von Tabelle pse.category
+CREATE TABLE IF NOT EXISTS `category` (
+  `id` int(11) NOT NULL,
+  `parent` int(11) DEFAULT NULL,
+  `path` varchar(50) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `notes` text,
+  `childseries` text,
+  PRIMARY KEY (`id`),
+  KEY `category_parent` (`parent`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Daten Export vom Benutzer nicht ausgewählt
+-- Exportiere Struktur von Tabelle pse.category_tree
+CREATE TABLE IF NOT EXISTS `category_tree` (
+  `parent` int(11) DEFAULT NULL,
+  `child` int(11) DEFAULT NULL,
+  `distance` int(11) DEFAULT NULL,
+  `weight` int(11) NOT NULL AUTO_INCREMENT,
+  KEY `order` (`weight`)
+) ENGINE=InnoDB AUTO_INCREMENT=8697 DEFAULT CHARSET=utf8mb4;
+
+-- Daten Export vom Benutzer nicht ausgewählt
 -- Exportiere Struktur von Tabelle pse.consumption
 CREATE TABLE IF NOT EXISTS `consumption` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -35,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `consumption` (
   CONSTRAINT `cons_period` FOREIGN KEY (`period`) REFERENCES `period` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `cons_sector` FOREIGN KEY (`sector`) REFERENCES `gen_cons_sector` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `cons_state` FOREIGN KEY (`state`) REFERENCES `state` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
 -- Daten Export vom Benutzer nicht ausgewählt
 -- Exportiere Struktur von Tabelle pse.elec_net_gen
@@ -57,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `elec_net_gen` (
   CONSTRAINT `gen_period` FOREIGN KEY (`period`) REFERENCES `period` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `gen_sector` FOREIGN KEY (`sector`) REFERENCES `gen_cons_sector` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `gen_state` FOREIGN KEY (`state`) REFERENCES `state` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
 -- Daten Export vom Benutzer nicht ausgewählt
 -- Exportiere Struktur von Tabelle pse.elec_retail
@@ -76,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `elec_retail` (
   CONSTRAINT `retail_period` FOREIGN KEY (`period`) REFERENCES `period` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `retail_sector` FOREIGN KEY (`sector`) REFERENCES `retail_sector` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `retail_state` FOREIGN KEY (`state`) REFERENCES `state` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
 -- Daten Export vom Benutzer nicht ausgewählt
 -- Exportiere Struktur von Tabelle pse.fuel
@@ -95,6 +118,7 @@ CREATE TABLE IF NOT EXISTS `gen_cons_sector` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '0',
   `parent` int(11) DEFAULT '0',
+  `notes` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `gc_sector_parent` (`parent`),
   CONSTRAINT `gc_sector_parent` FOREIGN KEY (`parent`) REFERENCES `gen_cons_sector` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
