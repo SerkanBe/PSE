@@ -83,12 +83,12 @@
   <connection>
     <name>PSE</name>
     <server>localhost</server>
-    <type>ORACLE</type>
+    <type>MYSQL</type>
     <access>Native</access>
-    <database>XE</database>
-    <port>1521</port>
-    <username>pseuser</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb79ce10cb81aac8</password>
+    <database>pse</database>
+    <port>3306</port>
+    <username>root</username>
+    <password>Encrypted </password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -96,9 +96,10 @@
       <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
-      <attribute><code>PORT_NUMBER</code><attribute>1521</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>3306</attribute></attribute>
       <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>Y</attribute></attribute>
       <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>STREAM_RESULTS</code><attribute>Y</attribute></attribute>
       <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
       <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>Y</attribute></attribute>
       <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
@@ -107,17 +108,17 @@
   <order>
   <hop> <from>read line</from><to>filter generation</to><enabled>Y</enabled> </hop>
   <hop> <from>filter generation</from><to>generation IN</to><enabled>Y</enabled> </hop>
-  <hop> <from>Consumption IN</from><to>extract data&#x26;amount 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Retail IN</from><to>extract data&#x26;amount 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>extract data&#x26;amount 2</from><to>CON-Table</to><enabled>Y</enabled> </hop>
-  <hop> <from>extract data&#x26;amount 3</from><to>Table output 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>generation IN</from><to>extract date&#x26;amount</to><enabled>Y</enabled> </hop>
+  <hop> <from>Consumption IN</from><to>extract date&#x26;amount &#x28;Cons&#x29;</to><enabled>Y</enabled> </hop>
+  <hop> <from>Retail IN</from><to>extract date&#x26;amount &#x28;Ret&#x29;</to><enabled>Y</enabled> </hop>
+  <hop> <from>generation IN</from><to>extract date&#x26;amount &#x28;Gen&#x29;</to><enabled>Y</enabled> </hop>
   <hop> <from>filter generation</from><to>Filter Consumption</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Consumption</from><to>Filter Retail</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Consumption</from><to>Consumption IN</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Retail</from><to>Retail IN</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Retail</from><to>Write to log</to><enabled>Y</enabled> </hop>
-  <hop> <from>extract date&#x26;amount</from><to>GEN-Table</to><enabled>Y</enabled> </hop>
+  <hop> <from>extract date&#x26;amount &#x28;Gen&#x29;</from><to>GEN-Table</to><enabled>Y</enabled> </hop>
+  <hop> <from>extract date&#x26;amount &#x28;Cons&#x29;</from><to>CON-Table</to><enabled>Y</enabled> </hop>
+  <hop> <from>extract date&#x26;amount &#x28;Ret&#x29;</from><to>Retail-Table</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>CON-Table</name>
@@ -131,8 +132,8 @@
            <schema_name/>
            </partitioning>
     <connection>PSE</connection>
-    <schema>PSEUSER</schema>
-    <table>CONSUMPTION</table>
+    <schema/>
+    <table>consumption</table>
     <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
@@ -149,15 +150,15 @@
     <return_field/>
     <fields>
         <field>
-          <column_name>SERIES_ID</column_name>
+          <column_name>series_id</column_name>
           <stream_name>series_id</stream_name>
         </field>
         <field>
-          <column_name>AMOUNT</column_name>
+          <column_name>amount</column_name>
           <stream_name>amount</stream_name>
         </field>
         <field>
-          <column_name>UNITS</column_name>
+          <column_name>unit</column_name>
           <stream_name>units</stream_name>
         </field>
     </fields>
@@ -433,8 +434,8 @@
            <schema_name/>
            </partitioning>
     <connection>PSE</connection>
-    <schema>PSEUSER</schema>
-    <table>ELEC_NET_GEN</table>
+    <schema/>
+    <table>elec_net_gen</table>
     <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
@@ -451,15 +452,15 @@
     <return_field/>
     <fields>
         <field>
-          <column_name>SERIES_ID</column_name>
+          <column_name>series_id</column_name>
           <stream_name>series_id</stream_name>
         </field>
         <field>
-          <column_name>AMOUNT</column_name>
+          <column_name>amount</column_name>
           <stream_name>amount</stream_name>
         </field>
         <field>
-          <column_name>UNITS</column_name>
+          <column_name>unit</column_name>
           <stream_name>units</stream_name>
         </field>
     </fields>
@@ -666,7 +667,7 @@
     </step>
 
   <step>
-    <name>Table output 3</name>
+    <name>Retail-Table</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -677,8 +678,8 @@
            <schema_name/>
            </partitioning>
     <connection>PSE</connection>
-    <schema>PSEUSER</schema>
-    <table>ELEC_RETAIL</table>
+    <schema/>
+    <table>elec_retail</table>
     <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
@@ -695,15 +696,15 @@
     <return_field/>
     <fields>
         <field>
-          <column_name>SERIES_ID</column_name>
+          <column_name>series_id</column_name>
           <stream_name>series_id</stream_name>
         </field>
         <field>
-          <column_name>UNITS</column_name>
+          <column_name>unit</column_name>
           <stream_name>units</stream_name>
         </field>
         <field>
-          <column_name>AMOUNT</column_name>
+          <column_name>amount</column_name>
           <stream_name>amount</stream_name>
         </field>
     </fields>
@@ -745,7 +746,7 @@
     </step>
 
   <step>
-    <name>extract data&#x26;amount 2</name>
+    <name>extract date&#x26;amount &#x28;Cons&#x29;</name>
     <type>JsonInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -822,84 +823,7 @@
     </step>
 
   <step>
-    <name>extract data&#x26;amount 3</name>
-    <type>JsonInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <include>N</include>
-    <include_field/>
-    <rownum>N</rownum>
-    <addresultfile>N</addresultfile>
-    <readurl>N</readurl>
-    <removeSourceField>N</removeSourceField>
-    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
-    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
-    <ignoreMissingPath>N</ignoreMissingPath>
-    <defaultPathLeafToNull>N</defaultPathLeafToNull>
-    <rownum_field/>
-    <file>
-      <name/>
-      <filemask/>
-      <exclude_filemask/>
-      <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
-    </file>
-    <fields>
-      <field>
-        <name>date</name>
-        <path>&#x24;.&#x5b;&#x2a;&#x5d;&#x5b;0&#x5d;</path>
-        <type>Date</type>
-        <format>yyyy</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>amount</name>
-        <path>&#x24;.&#x5b;&#x2a;&#x5d;&#x5b;1&#x5d;</path>
-        <type>Number</type>
-        <format>&#x23;.&#x23;&#x23;&#x23;</format>
-        <currency/>
-        <decimal>.</decimal>
-        <group/>
-        <length>-1</length>
-        <precision>3</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-    </fields>
-    <limit>0</limit>
-    <IsInFields>Y</IsInFields>
-    <IsAFile>N</IsAFile>
-    <valueField>data</valueField>
-    <shortFileFieldName/>
-    <pathFieldName/>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <sizeFieldName/>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>544</xloc>
-      <yloc>288</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>extract date&#x26;amount</name>
+    <name>extract date&#x26;amount &#x28;Gen&#x29;</name>
     <type>JsonInput</type>
     <description/>
     <distribute>N</distribute>
@@ -971,6 +895,83 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>544</xloc>
       <yloc>128</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>extract date&#x26;amount &#x28;Ret&#x29;</name>
+    <type>JsonInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <include>N</include>
+    <include_field/>
+    <rownum>N</rownum>
+    <addresultfile>N</addresultfile>
+    <readurl>N</readurl>
+    <removeSourceField>N</removeSourceField>
+    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
+    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
+    <ignoreMissingPath>N</ignoreMissingPath>
+    <defaultPathLeafToNull>N</defaultPathLeafToNull>
+    <rownum_field/>
+    <file>
+      <name/>
+      <filemask/>
+      <exclude_filemask/>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
+    </file>
+    <fields>
+      <field>
+        <name>date</name>
+        <path>&#x24;.&#x5b;&#x2a;&#x5d;&#x5b;0&#x5d;</path>
+        <type>Date</type>
+        <format>yyyy</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>amount</name>
+        <path>&#x24;.&#x5b;&#x2a;&#x5d;&#x5b;1&#x5d;</path>
+        <type>Number</type>
+        <format>&#x23;.&#x23;&#x23;&#x23;</format>
+        <currency/>
+        <decimal>.</decimal>
+        <group/>
+        <length>-1</length>
+        <precision>3</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+    </fields>
+    <limit>0</limit>
+    <IsInFields>Y</IsInFields>
+    <IsAFile>N</IsAFile>
+    <valueField>data</valueField>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>544</xloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1298,7 +1299,7 @@
 
   <step_error_handling>
       <error>
-        <source_step>extract date&#x26;amount</source_step>
+        <source_step>extract date&#x26;amount &#x28;Gen&#x29;</source_step>
         <target_step/>
         <is_enabled>N</is_enabled>
         <nr_valuename/>
