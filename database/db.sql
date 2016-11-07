@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server Version:               5.6.21 - MySQL Community Server (GPL)
+-- Server Version:               5.5.27 - MySQL Community Server (GPL)
 -- Server Betriebssystem:        Win32
--- HeidiSQL Version:             9.3.0.5062
+-- HeidiSQL Version:             9.4.0.5125
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -12,7 +12,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Exportiere Datenbank Struktur f¸r pse
+-- Exportiere Datenbank Struktur f√ºr pse
 CREATE DATABASE IF NOT EXISTS `pse` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `pse`;
 
@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL,
   `parent` int(11) DEFAULT NULL,
   `path` varchar(50) DEFAULT NULL,
+  `path_depth` int(11) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `notes` text,
   `childseries` text,
@@ -28,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   KEY `category_parent` (`parent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle pse.category_tree
 CREATE TABLE IF NOT EXISTS `category_tree` (
   `parent` int(11) DEFAULT NULL,
@@ -36,9 +37,9 @@ CREATE TABLE IF NOT EXISTS `category_tree` (
   `distance` int(11) DEFAULT NULL,
   `weight` int(11) NOT NULL AUTO_INCREMENT,
   KEY `order` (`weight`)
-) ENGINE=InnoDB AUTO_INCREMENT=8697 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=52401 DEFAULT CHARSET=utf8mb4;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle pse.consumption
 CREATE TABLE IF NOT EXISTS `consumption` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -58,9 +59,9 @@ CREATE TABLE IF NOT EXISTS `consumption` (
   CONSTRAINT `cons_period` FOREIGN KEY (`period`) REFERENCES `period` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `cons_sector` FOREIGN KEY (`sector`) REFERENCES `gen_cons_sector` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `cons_state` FOREIGN KEY (`state`) REFERENCES `state` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2447684 DEFAULT CHARSET=utf8mb4;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle pse.elec_net_gen
 CREATE TABLE IF NOT EXISTS `elec_net_gen` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -80,9 +81,9 @@ CREATE TABLE IF NOT EXISTS `elec_net_gen` (
   CONSTRAINT `gen_period` FOREIGN KEY (`period`) REFERENCES `period` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `gen_sector` FOREIGN KEY (`sector`) REFERENCES `gen_cons_sector` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `gen_state` FOREIGN KEY (`state`) REFERENCES `state` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1397658 DEFAULT CHARSET=utf8mb4;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle pse.elec_retail
 CREATE TABLE IF NOT EXISTS `elec_retail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -99,9 +100,9 @@ CREATE TABLE IF NOT EXISTS `elec_retail` (
   CONSTRAINT `retail_period` FOREIGN KEY (`period`) REFERENCES `period` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `retail_sector` FOREIGN KEY (`sector`) REFERENCES `retail_sector` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `retail_state` FOREIGN KEY (`state`) REFERENCES `state` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=92914 DEFAULT CHARSET=utf8mb4;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle pse.fuel
 CREATE TABLE IF NOT EXISTS `fuel` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -112,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `fuel` (
   CONSTRAINT `fuel_parent` FOREIGN KEY (`parent`) REFERENCES `fuel` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle pse.gen_cons_sector
 CREATE TABLE IF NOT EXISTS `gen_cons_sector` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -124,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `gen_cons_sector` (
   CONSTRAINT `gc_sector_parent` FOREIGN KEY (`parent`) REFERENCES `gen_cons_sector` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle pse.period
 CREATE TABLE IF NOT EXISTS `period` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -134,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `period` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle pse.retail_sector
 CREATE TABLE IF NOT EXISTS `retail_sector` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -145,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `retail_sector` (
   CONSTRAINT `ret_sector_parent` FOREIGN KEY (`parent`) REFERENCES `retail_sector` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 -- Exportiere Struktur von Tabelle pse.state
 CREATE TABLE IF NOT EXISTS `state` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -153,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `state` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Daten Export vom Benutzer nicht ausgew‰hlt
+-- Daten Export vom Benutzer nicht ausgew√§hlt
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
