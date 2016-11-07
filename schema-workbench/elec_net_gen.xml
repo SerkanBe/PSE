@@ -1,28 +1,28 @@
 <Schema name="New Schema1">
   <Cube name="ELEC Generation" visible="true" cache="true" enabled="true">
-    <Table name="elec_net_gen" alias="">
+    <Table name="elec_net_gen">
     </Table>
-    <Dimension type="StandardDimension" visible="true" name="fuel-type">
+    <Dimension type="StandardDimension" visible="true" highCardinality="false" name="fuel-type">
       <Hierarchy name="Coal" visible="true" hasAll="true" primaryKeyTable="fuel">
-        <Level name="Coal" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false">
+        <Level name="Coal" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
       <Hierarchy name="Petroleum liquids" visible="true" hasAll="true" primaryKeyTable="fuel">
-        <Level name="Petroleum liquids" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false">
+        <Level name="Petroleum liquids" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
       <Hierarchy name="Petroleum coke" visible="true" hasAll="true" primaryKeyTable="fuel">
-        <Level name="Petroleum coke" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false">
+        <Level name="Petroleum coke" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
       <Hierarchy name="Natural gas" visible="true" hasAll="true" primaryKeyTable="fuel">
-        <Level name="Natural gas" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false">
+        <Level name="Natural gas" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
       <Hierarchy name="Other gases" visible="true" hasAll="true" primaryKeyTable="fuel">
-        <Level name="Other gases" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false">
+        <Level name="Other gases" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-      </Hierarchy>	  
+      </Hierarchy>
     </Dimension>
     <Measure name="Energy" column="amount" datatype="Numeric" aggregator="sum" visible="true">
     </Measure>

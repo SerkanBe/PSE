@@ -995,7 +995,7 @@
  <leftvalue>line</leftvalue>
  <function>REGEXP</function>
  <rightvalue/>
- <value><name>constant</name><type>String</type><text>&#x5e;&#x5c;&#x7b;&#x22;series_id&#x22;&#x3a;&#x22;ELEC&#x5c;.GEN&#x5c;..&#x2a;&#x24;</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+ <value><name>constant</name><type>String</type><text>&#x5e;&#x5c;&#x7b;&#x22;series_id&#x22;&#x3a;&#x22;ELEC&#x5c;.GEN&#x5c;.&#x28;&#x3f;&#x21;All&#x29;.&#x2a;&#x24;</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
