@@ -111,7 +111,6 @@
   <hop> <from>category IN</from><to>get parents</to><enabled>Y</enabled> </hop>
   <hop> <from>get parents</from><to>create category-tree</to><enabled>Y</enabled> </hop>
   <hop> <from>read line</from><to>category IN</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows</from><to>Sort rows</to><enabled>Y</enabled> </hop>
   <hop> <from>category IN</from><to>Sort rows 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Concat Fields</from><to>category-table</to><enabled>Y</enabled> </hop>
   <hop> <from>Merge Join</from><to>Add constants</to><enabled>Y</enabled> </hop>
@@ -120,6 +119,7 @@
   <hop> <from>Sort rows 2</from><to>Merge Join</to><enabled>Y</enabled> </hop>
   <hop> <from>Sort rows</from><to>category_id</to><enabled>Y</enabled> </hop>
   <hop> <from>category_id</from><to>Merge Join</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>Sort rows</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Add constants</name>
@@ -246,7 +246,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to/>
+<send_true_to>Sort rows</send_true_to>
 <send_false_to/>
     <compare>
 <condition>
@@ -581,6 +581,52 @@
     </step>
 
   <step>
+    <name>category_id</name>
+    <type>GroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <all_rows>N</all_rows>
+      <ignore_aggregate>N</ignore_aggregate>
+      <field_ignore/>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>grp</prefix>
+      <add_linenr>N</add_linenr>
+      <linenr_fieldname/>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>category_id</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>path</aggregate>
+          <subject>parent_category_id</subject>
+          <type>CONCAT_STRING</type>
+          <valuefield>&#x2f;</valuefield>
+        </field>
+        <field>
+          <aggregate>path_depth</aggregate>
+          <subject>distance</subject>
+          <type>MAX</type>
+          <valuefield/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>784</xloc>
+      <yloc>272</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>create category-tree</name>
     <type>TableOutput</type>
     <description/>
@@ -746,52 +792,6 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>96</xloc>
-      <yloc>272</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>category_id</name>
-    <type>GroupBy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <all_rows>N</all_rows>
-      <ignore_aggregate>N</ignore_aggregate>
-      <field_ignore/>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>grp</prefix>
-      <add_linenr>N</add_linenr>
-      <linenr_fieldname/>
-      <give_back_row>N</give_back_row>
-      <group>
-        <field>
-          <name>category_id</name>
-        </field>
-      </group>
-      <fields>
-        <field>
-          <aggregate>path</aggregate>
-          <subject>parent_category_id</subject>
-          <type>CONCAT_STRING</type>
-          <valuefield>&#x2f;</valuefield>
-        </field>
-        <field>
-          <aggregate>path_depth</aggregate>
-          <subject>distance</subject>
-          <type>MAX</type>
-          <valuefield/>
-        </field>
-      </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>784</xloc>
       <yloc>272</yloc>
       <draw>Y</draw>
       </GUI>
