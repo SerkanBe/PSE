@@ -112,35 +112,12 @@
   <hop> <from>Memory Group by</from><to>Block this step until steps finish</to><enabled>Y</enabled> </hop>
   <hop> <from>Block this step until steps finish</from><to>Update dest-table</to><enabled>Y</enabled> </hop>
   <hop> <from>Block this step until steps finish</from><to>Update dest-table 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block this step until steps finish</from><to>Update dest-table 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block this step until steps finish</from><to>Update dest-table 4</to><enabled>Y</enabled> </hop>
   </order>
   <step>
-    <name>wait for delete</name>
+    <name>Block this step until steps finish</name>
     <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>delete fuel-types</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>320</xloc>
-      <yloc>128</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Update dest-table</name>
-    <type>ExecSQL</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -149,32 +126,22 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>PSE</connection>
-    <execute_each_row>Y</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>Y</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>UPDATE &#x3f; SET fuel &#x3d; &#x3f; WHERE series_id IN &#x28;&#x27;&#x3f;&#x27;&#x29;&#x3b;</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-       <argument><name>dest_table</name></argument>
-       <argument><name>id</name></argument>
-       <argument><name>series_ids</name></argument>
-    </arguments>
+    <steps>
+      <step>
+        <name>Insert &#x2f; Update</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>704</xloc>
-      <yloc>176</yloc>
+      <xloc>560</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>net-gen Fuel IN</name>
+    <name>Consumption Fuel IN</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -185,7 +152,7 @@
            <schema_name/>
            </partitioning>
     <connection>PSE</connection>
-    <sql>SELECT  &#x60;id&#x60;,  &#x60;parent&#x60;,  &#x60;name&#x60;, &#x60;childseries&#x60;, &#x27;elec_net_gen&#x27; as dest_table&#xd;&#xa;FROM &#x60;pse&#x60;.&#x60;category&#x60; &#xd;&#xa;WHERE path LIKE &#x27;371&#x2f;0&#x2f;1&#x2f;3&#x2f;&#x27;&#xd;&#xa;ORDER BY &#x60;path_depth&#x60; ASC, &#x60;parent&#x60; ASC&#x3b;</sql>
+    <sql>SELECT  &#x60;id&#x60;,  &#x60;parent&#x60;,  &#x60;name&#x60;, &#x60;childseries&#x60;, &#x27;consumption&#x27; as dest_table&#xd;&#xa;FROM &#x60;pse&#x60;.&#x60;category&#x60; &#xd;&#xa;WHERE path LIKE &#x27;371&#x2f;0&#x2f;35&#x2f;379&#x2f;&#x27;&#xd;&#xa;ORDER BY &#x60;path_depth&#x60; ASC, &#x60;parent&#x60; ASC&#x3b;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -194,6 +161,53 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>96</xloc>
+      <yloc>240</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Insert &#x2f; Update</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>PSE</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema/>
+      <table>fuel</table>
+      <key>
+        <name>id</name>
+        <field>id</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id</name>
+        <rename>id</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>parent</name>
+        <rename>parent</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>name</name>
+        <rename>name</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>464</xloc>
       <yloc>128</yloc>
       <draw>Y</draw>
       </GUI>
@@ -259,6 +273,101 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>192</xloc>
       <yloc>128</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Parent Null&#x3f; 2</name>
+    <type>NullIf</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>parent</name>
+        <value>379</value>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>192</xloc>
+      <yloc>240</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Update dest-table</name>
+    <type>ExecSQL</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>PSE</connection>
+    <execute_each_row>Y</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>Y</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>UPDATE &#x3f; SET fuel &#x3d; &#x3f; WHERE series_id IN &#x28;&#x27;&#x3f;&#x27;&#x29;&#x3b;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+       <argument><name>dest_table</name></argument>
+       <argument><name>id</name></argument>
+       <argument><name>series_ids</name></argument>
+    </arguments>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>704</xloc>
+      <yloc>176</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Update dest-table 2</name>
+    <type>ExecSQL</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>PSE</connection>
+    <execute_each_row>Y</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>Y</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>UPDATE &#x3f; SET fuel &#x3d; &#x3f; WHERE series_id IN &#x28;&#x27;&#x3f;&#x27;&#x29;&#x3b;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+       <argument><name>dest_table</name></argument>
+       <argument><name>id</name></argument>
+       <argument><name>series_ids</name></argument>
+    </arguments>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>704</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -360,7 +469,7 @@
     </step>
 
   <step>
-    <name>Consumption Fuel IN</name>
+    <name>net-gen Fuel IN</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -371,7 +480,7 @@
            <schema_name/>
            </partitioning>
     <connection>PSE</connection>
-    <sql>SELECT  &#x60;id&#x60;,  &#x60;parent&#x60;,  &#x60;name&#x60;, &#x60;childseries&#x60;, &#x27;consumption&#x27; as dest_table&#xd;&#xa;FROM &#x60;pse&#x60;.&#x60;category&#x60; &#xd;&#xa;WHERE path LIKE &#x27;371&#x2f;0&#x2f;35&#x2f;379&#x2f;&#x27;&#xd;&#xa;ORDER BY &#x60;path_depth&#x60; ASC, &#x60;parent&#x60; ASC&#x3b;</sql>
+    <sql>SELECT  &#x60;id&#x60;,  &#x60;parent&#x60;,  &#x60;name&#x60;, &#x60;childseries&#x60;, &#x27;elec_net_gen&#x27; as dest_table&#xd;&#xa;FROM &#x60;pse&#x60;.&#x60;category&#x60; &#xd;&#xa;WHERE path LIKE &#x27;371&#x2f;0&#x2f;1&#x2f;3&#x2f;&#x27;&#xd;&#xa;ORDER BY &#x60;path_depth&#x60; ASC, &#x60;parent&#x60; ASC&#x3b;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -380,14 +489,14 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>96</xloc>
-      <yloc>240</yloc>
+      <yloc>128</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Parent Null&#x3f; 2</name>
-    <type>NullIf</type>
+    <name>wait for delete</name>
+    <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>N</distribute>
     <custom_distribution/>
@@ -396,22 +505,22 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <fields>
-      <field>
-        <name>parent</name>
-        <value>379</value>
-        </field>
-      </fields>
+    <steps>
+      <step>
+        <name>delete fuel-types</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>192</xloc>
-      <yloc>240</yloc>
+      <xloc>320</xloc>
+      <yloc>128</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Update dest-table 2</name>
+    <name>Update dest-table 3</name>
     <type>ExecSQL</type>
     <description/>
     <distribute>Y</distribute>
@@ -440,14 +549,14 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>704</xloc>
-      <yloc>240</yloc>
+      <yloc>304</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Insert &#x2f; Update</name>
-    <type>InsertUpdate</type>
+    <name>Update dest-table 4</name>
+    <type>ExecSQL</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -457,62 +566,25 @@
            <schema_name/>
            </partitioning>
     <connection>PSE</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema/>
-      <table>fuel</table>
-      <key>
-        <name>id</name>
-        <field>id</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>id</name>
-        <rename>id</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>parent</name>
-        <rename>parent</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>name</name>
-        <rename>name</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
+    <execute_each_row>Y</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>Y</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>UPDATE &#x3f; SET fuel &#x3d; &#x3f; WHERE series_id IN &#x28;&#x27;&#x3f;&#x27;&#x29;&#x3b;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+       <argument><name>dest_table</name></argument>
+       <argument><name>id</name></argument>
+       <argument><name>series_ids</name></argument>
+    </arguments>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>464</xloc>
-      <yloc>128</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Insert &#x2f; Update</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>560</xloc>
-      <yloc>240</yloc>
+      <xloc>704</xloc>
+      <yloc>368</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
