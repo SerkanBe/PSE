@@ -106,27 +106,31 @@
     </attributes>
   </connection>
   <order>
+  <hop> <from>State-Gen</from><to>GEN-Table</to><enabled>Y</enabled> </hop>
   <hop> <from>read line</from><to>filter generation</to><enabled>Y</enabled> </hop>
   <hop> <from>filter generation</from><to>generation IN</to><enabled>Y</enabled> </hop>
-  <hop> <from>Consumption IN</from><to>extract date&#x26;amount &#x28;Cons&#x29;</to><enabled>Y</enabled> </hop>
-  <hop> <from>Retail IN</from><to>extract date&#x26;amount &#x28;Ret&#x29;</to><enabled>Y</enabled> </hop>
   <hop> <from>filter generation</from><to>Filter Consumption</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Consumption</from><to>Filter Retail</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Consumption</from><to>Consumption IN</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Retail</from><to>Retail IN</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Retail</from><to>Write to log</to><enabled>Y</enabled> </hop>
-  <hop> <from>extract date&#x26;amount &#x28;Gen&#x29;</from><to>State-Gen</to><enabled>Y</enabled> </hop>
-  <hop> <from>extract date&#x26;amount &#x28;Ret&#x29;</from><to>State-Ret</to><enabled>Y</enabled> </hop>
   <hop> <from>State-Ret</from><to>Retail-Table</to><enabled>Y</enabled> </hop>
-  <hop> <from>extract date&#x26;amount &#x28;Cons&#x29;</from><to>State-Con</to><enabled>Y</enabled> </hop>
   <hop> <from>State-Con</from><to>CON-Table</to><enabled>Y</enabled> </hop>
-  <hop> <from>Calculator</from><to>Combination lookup&#x2f;update</to><enabled>Y</enabled> </hop>
-  <hop> <from>generation IN</from><to>Add constants</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants</from><to>extract date&#x26;amount &#x28;Gen&#x29;</to><enabled>Y</enabled> </hop>
-  <hop> <from>State-Gen</from><to>Set field value</to><enabled>Y</enabled> </hop>
-  <hop> <from>Set field value</from><to>Calculator</to><enabled>Y</enabled> </hop>
-  <hop> <from>Combination lookup&#x2f;update</from><to>Set field value 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Set field value 2</from><to>GEN-Table</to><enabled>Y</enabled> </hop>
+  <hop> <from>generation IN</from><to>Filter rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>extract date&#x26;amount &#x28;Gen&#x29;</from><to>Calculator</to><enabled>Y</enabled> </hop>
+  <hop> <from>Calculator</from><to>Period-Gen</to><enabled>Y</enabled> </hop>
+  <hop> <from>Period-Gen</from><to>State-Gen</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>extract date&#x26;amount &#x28;Gen&#x29;</to><enabled>Y</enabled> </hop>
+  <hop> <from>Period-Con</from><to>State-Con</to><enabled>Y</enabled> </hop>
+  <hop> <from>Period-Retail</from><to>State-Ret</to><enabled>Y</enabled> </hop>
+  <hop> <from>extract date&#x26;amount &#x28;Cons&#x29;</from><to>Calculator 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Calculator 2</from><to>Period-Con</to><enabled>Y</enabled> </hop>
+  <hop> <from>extract date&#x26;amount &#x28;Ret&#x29;</from><to>Calculator 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Calculator 3</from><to>Period-Retail</to><enabled>Y</enabled> </hop>
+  <hop> <from>Consumption IN</from><to>Filter Monat Consum</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter Monat Consum</from><to>extract date&#x26;amount &#x28;Cons&#x29;</to><enabled>Y</enabled> </hop>
+  <hop> <from>Retail IN</from><to>Filter Monat Retail</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter Monat Retail</from><to>extract date&#x26;amount &#x28;Ret&#x29;</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>CON-Table</name>
@@ -171,54 +175,17 @@
         </field>
         <field>
           <column_name>state</column_name>
+          <stream_name>Id_1</stream_name>
+        </field>
+        <field>
+          <column_name>period</column_name>
           <stream_name>Id</stream_name>
         </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>880</xloc>
-      <yloc>208</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>State-Gen</name>
-    <type>CombinationLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <schema/>
-      <table>state</table>
-      <connection>PSE</connection>
-      <commit>100</commit>
-      <cache_size>9999</cache_size>
-      <replace>N</replace>
-      <preloadCache>N</preloadCache>
-      <crc>N</crc>
-      <crcfield>hashcode</crcfield>
-      <fields>
-        <key>
-          <name>geography</name>
-          <lookup>name</lookup>
-        </key>
-        <return>
-          <name>Id</name>
-          <creation_method>autoinc</creation_method>
-          <use_autoinc>Y</use_autoinc>
-        </return>
-      </fields>
-      <sequence/>
-      <last_update_field/>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>656</xloc>
-      <yloc>128</yloc>
+      <xloc>1040</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -411,8 +378,8 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>368</xloc>
-      <yloc>208</yloc>
+      <xloc>272</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -441,7 +408,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>160</xloc>
-      <yloc>208</yloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -470,7 +437,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>160</xloc>
-      <yloc>288</yloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -492,7 +459,7 @@
     <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
+    <use_batch>N</use_batch>
     <specify_fields>Y</specify_fields>
     <partitioning_enabled>N</partitioning_enabled>
     <partitioning_field/>
@@ -518,17 +485,17 @@
         </field>
         <field>
           <column_name>state</column_name>
-          <stream_name>state_id</stream_name>
+          <stream_name>Id_1</stream_name>
         </field>
         <field>
           <column_name>period</column_name>
-          <stream_name>period_id</stream_name>
+          <stream_name>Id</stream_name>
         </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>928</xloc>
-      <yloc>128</yloc>
+      <xloc>1040</xloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -721,8 +688,8 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>368</xloc>
-      <yloc>288</yloc>
+      <xloc>272</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -770,13 +737,140 @@
         </field>
         <field>
           <column_name>state</column_name>
+          <stream_name>Id_1</stream_name>
+        </field>
+        <field>
+          <column_name>period</column_name>
           <stream_name>Id</stream_name>
         </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>880</xloc>
-      <yloc>288</yloc>
+      <xloc>1040</xloc>
+      <yloc>400</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>State-Con</name>
+    <type>CombinationLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <schema/>
+      <table>state</table>
+      <connection>PSE</connection>
+      <commit>100</commit>
+      <cache_size>9999</cache_size>
+      <replace>N</replace>
+      <preloadCache>N</preloadCache>
+      <crc>N</crc>
+      <crcfield>hashcode</crcfield>
+      <fields>
+        <key>
+          <name>geography</name>
+          <lookup>name</lookup>
+        </key>
+        <return>
+          <name>Id</name>
+          <creation_method>tablemax</creation_method>
+          <use_autoinc>N</use_autoinc>
+        </return>
+      </fields>
+      <sequence/>
+      <last_update_field/>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>944</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>State-Gen</name>
+    <type>CombinationLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <schema/>
+      <table>state</table>
+      <connection>PSE</connection>
+      <commit>100</commit>
+      <cache_size>9999</cache_size>
+      <replace>N</replace>
+      <preloadCache>N</preloadCache>
+      <crc>N</crc>
+      <crcfield>hashcode</crcfield>
+      <fields>
+        <key>
+          <name>geography</name>
+          <lookup>name</lookup>
+        </key>
+        <return>
+          <name>Id</name>
+          <creation_method>autoinc</creation_method>
+          <use_autoinc>Y</use_autoinc>
+        </return>
+      </fields>
+      <sequence/>
+      <last_update_field/>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>944</xloc>
+      <yloc>16</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>State-Ret</name>
+    <type>CombinationLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <schema/>
+      <table>state</table>
+      <connection>PSE</connection>
+      <commit>100</commit>
+      <cache_size>9999</cache_size>
+      <replace>N</replace>
+      <preloadCache>N</preloadCache>
+      <crc>N</crc>
+      <crcfield>hashcode</crcfield>
+      <fields>
+        <key>
+          <name>geography</name>
+          <lookup>name</lookup>
+        </key>
+        <return>
+          <name>Id</name>
+          <creation_method>autoinc</creation_method>
+          <use_autoinc>Y</use_autoinc>
+        </return>
+      </fields>
+      <sequence/>
+      <last_update_field/>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>944</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -804,8 +898,8 @@
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>48</xloc>
-      <yloc>288</yloc>
+      <xloc>32</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -844,7 +938,7 @@
         <name>date</name>
         <path>&#x24;.&#x5b;&#x2a;&#x5d;&#x5b;0&#x5d;</path>
         <type>Date</type>
-        <format>yyyy</format>
+        <format>yyyyMM</format>
         <currency/>
         <decimal/>
         <group/>
@@ -881,8 +975,8 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>544</xloc>
-      <yloc>208</yloc>
+      <xloc>560</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -891,7 +985,7 @@
     <name>extract date&#x26;amount &#x28;Gen&#x29;</name>
     <type>JsonInput</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -921,7 +1015,7 @@
         <name>date</name>
         <path>&#x24;.&#x5b;&#x2a;&#x5d;&#x5b;0&#x5d;</path>
         <type>Date</type>
-        <format>yyyy</format>
+        <format>yyyyMM</format>
         <currency/>
         <decimal/>
         <group/>
@@ -958,8 +1052,8 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>544</xloc>
-      <yloc>128</yloc>
+      <xloc>560</xloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -998,7 +1092,7 @@
         <name>date</name>
         <path>&#x24;.&#x5b;&#x2a;&#x5d;&#x5b;0&#x5d;</path>
         <type>Date</type>
-        <format>yyyy</format>
+        <format>yyyyMM</format>
         <currency/>
         <decimal/>
         <group/>
@@ -1035,8 +1129,8 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>544</xloc>
-      <yloc>288</yloc>
+      <xloc>560</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1065,7 +1159,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>160</xloc>
-      <yloc>128</yloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1258,8 +1352,8 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>368</xloc>
-      <yloc>128</yloc>
+      <xloc>272</xloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1356,15 +1450,15 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>48</xloc>
-      <yloc>128</yloc>
+      <xloc>32</xloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>State-Ret</name>
-    <type>CombinationLookup</type>
+    <name>Filter rows</name>
+    <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1373,79 +1467,26 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <schema/>
-      <table>state</table>
-      <connection>PSE</connection>
-      <commit>100</commit>
-      <cache_size>9999</cache_size>
-      <replace>N</replace>
-      <preloadCache>N</preloadCache>
-      <crc>N</crc>
-      <crcfield>hashcode</crcfield>
-      <fields>
-        <key>
-          <name>geography</name>
-          <lookup>name</lookup>
-        </key>
-        <return>
-          <name>Id</name>
-          <creation_method>autoinc</creation_method>
-          <use_autoinc>Y</use_autoinc>
-        </return>
-      </fields>
-      <sequence/>
-      <last_update_field/>
+<send_true_to>extract date&#x26;amount &#x28;Gen&#x29;</send_true_to>
+<send_false_to>Filter rows 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>f</leftvalue>
+ <function>LIKE</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>M</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>736</xloc>
-      <yloc>288</yloc>
+      <xloc>400</xloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>State-Con</name>
-    <type>CombinationLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <schema/>
-      <table>state</table>
-      <connection>PSE</connection>
-      <commit>100</commit>
-      <cache_size>9999</cache_size>
-      <replace>N</replace>
-      <preloadCache>N</preloadCache>
-      <crc>N</crc>
-      <crcfield>hashcode</crcfield>
-      <fields>
-        <key>
-          <name>geography</name>
-          <lookup>name</lookup>
-        </key>
-        <return>
-          <name>Id</name>
-          <creation_method>tablemax</creation_method>
-          <use_autoinc>N</use_autoinc>
-        </return>
-      </fields>
-      <sequence/>
-      <last_update_field/>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>736</xloc>
-      <yloc>208</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Combination lookup&#x2f;update</name>
+    <name>Period-Gen</name>
     <type>CombinationLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -1466,19 +1507,19 @@
       <crcfield>hashcode</crcfield>
       <fields>
         <key>
-          <name>monat</name>
+          <name>month</name>
           <lookup>month</lookup>
         </key>
         <key>
-          <name>quartal</name>
+          <name>quarter</name>
           <lookup>quarter</lookup>
         </key>
         <key>
-          <name>jahr</name>
+          <name>year</name>
           <lookup>year</lookup>
         </key>
         <return>
-          <name>id</name>
+          <name>Id</name>
           <creation_method>autoinc</creation_method>
           <use_autoinc>Y</use_autoinc>
         </return>
@@ -1488,7 +1529,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>848</xloc>
-      <yloc>128</yloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1504,35 +1545,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-       <calculation><field_name>jahr</field_name>
-<calc_type>YEAR_OF_DATE</calc_type>
-<field_a>date</field_a>
-<field_b/>
-<field_c/>
-<value_type>None</value_type>
-<value_length>-1</value_length>
-<value_precision>-1</value_precision>
-<remove>N</remove>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<currency_symbol/>
-</calculation>
-       <calculation><field_name>quartal</field_name>
-<calc_type>QUARTER_OF_DATE</calc_type>
-<field_a>date</field_a>
-<field_b/>
-<field_c/>
-<value_type>None</value_type>
-<value_length>-1</value_length>
-<value_precision>-1</value_precision>
-<remove>N</remove>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<currency_symbol/>
-</calculation>
-       <calculation><field_name>monat</field_name>
+       <calculation><field_name>month</field_name>
 <calc_type>MONTH_OF_DATE</calc_type>
 <field_a>date</field_a>
 <field_b/>
@@ -1546,17 +1559,45 @@
 <grouping_symbol/>
 <currency_symbol/>
 </calculation>
+       <calculation><field_name>quarter</field_name>
+<calc_type>QUARTER_OF_DATE</calc_type>
+<field_a>date</field_a>
+<field_b/>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+       <calculation><field_name>year</field_name>
+<calc_type>YEAR_OF_DATE</calc_type>
+<field_a>date</field_a>
+<field_b/>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>816</xloc>
-      <yloc>48</yloc>
+      <xloc>720</xloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Add constants</name>
-    <type>Constant</type>
+    <name>Period-Con</name>
+    <type>CombinationLookup</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1565,68 +1606,47 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <fields>
-      <field>
-        <name>state_id</name>
-        <type>Integer</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>period_id</name>
-        <type>Integer</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>464</xloc>
-      <yloc>64</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Set field value</name>
-    <type>SetValueField</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>state_id</name>
-        <replaceby>Id</replaceby>
-        </field>
+      <schema/>
+      <table>period</table>
+      <connection>PSE</connection>
+      <commit>100</commit>
+      <cache_size>9999</cache_size>
+      <replace>N</replace>
+      <preloadCache>N</preloadCache>
+      <crc>N</crc>
+      <crcfield>hashcode</crcfield>
+      <fields>
+        <key>
+          <name>month</name>
+          <lookup>month</lookup>
+        </key>
+        <key>
+          <name>quarter</name>
+          <lookup>quarter</lookup>
+        </key>
+        <key>
+          <name>year</name>
+          <lookup>year</lookup>
+        </key>
+        <return>
+          <name>Id</name>
+          <creation_method>autoinc</creation_method>
+          <use_autoinc>Y</use_autoinc>
+        </return>
       </fields>
+      <sequence/>
+      <last_update_field/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>736</xloc>
-      <yloc>128</yloc>
+      <xloc>848</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Set field value 2</name>
-    <type>SetValueField</type>
+    <name>Period-Retail</name>
+    <type>CombinationLookup</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1635,16 +1655,220 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <fields>
-      <field>
-        <name>period_id</name>
-        <replaceby>Id</replaceby>
-        </field>
+      <schema/>
+      <table>period</table>
+      <connection>PSE</connection>
+      <commit>100</commit>
+      <cache_size>9999</cache_size>
+      <replace>N</replace>
+      <preloadCache>N</preloadCache>
+      <crc>N</crc>
+      <crcfield>hashcode</crcfield>
+      <fields>
+        <key>
+          <name>month</name>
+          <lookup>month</lookup>
+        </key>
+        <key>
+          <name>quarter</name>
+          <lookup>quarter</lookup>
+        </key>
+        <key>
+          <name>year</name>
+          <lookup>year</lookup>
+        </key>
+        <return>
+          <name>Id</name>
+          <creation_method>autoinc</creation_method>
+          <use_autoinc>Y</use_autoinc>
+        </return>
       </fields>
+      <sequence/>
+      <last_update_field/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>880</xloc>
-      <yloc>48</yloc>
+      <xloc>848</xloc>
+      <yloc>400</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Calculator 2</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+       <calculation><field_name>month</field_name>
+<calc_type>MONTH_OF_DATE</calc_type>
+<field_a>date</field_a>
+<field_b/>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+       <calculation><field_name>quarter</field_name>
+<calc_type>QUARTER_OF_DATE</calc_type>
+<field_a>date</field_a>
+<field_b/>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+       <calculation><field_name>year</field_name>
+<calc_type>YEAR_OF_DATE</calc_type>
+<field_a>date</field_a>
+<field_b/>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>720</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Calculator 3</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+       <calculation><field_name>month</field_name>
+<calc_type>MONTH_OF_DATE</calc_type>
+<field_a>date</field_a>
+<field_b/>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+       <calculation><field_name>quarter</field_name>
+<calc_type>QUARTER_OF_DATE</calc_type>
+<field_a>date</field_a>
+<field_b/>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+       <calculation><field_name>year</field_name>
+<calc_type>YEAR_OF_DATE</calc_type>
+<field_a>date</field_a>
+<field_b/>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>704</xloc>
+      <yloc>400</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter Monat Consum</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>extract date&#x26;amount &#x28;Cons&#x29;</send_true_to>
+<send_false_to/>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>f</leftvalue>
+ <function>LIKE</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>M</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>400</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter Monat Retail</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>extract date&#x26;amount &#x28;Ret&#x29;</send_true_to>
+<send_false_to/>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>f</leftvalue>
+ <function>LIKE</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>M</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>400</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
