@@ -6,7 +6,27 @@
       <Hierarchy name="Fuel-Type" visible="true" hasAll="true">
         <Table name="fuel">
         </Table>
-        <Level name="type" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" uniqueMembers="false">
+        <Level name="type" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="period" highCardinality="false" name="period">
+      <Hierarchy name="Period" visible="true" hasAll="true">
+        <Table name="period">
+        </Table>
+        <Level name="year" visible="true" table="period" column="year" nameColumn="year" uniqueMembers="false">
+        </Level>
+        <Level name="month" visible="true" table="period" column="month" nameColumn="month" uniqueMembers="false">
+        </Level>
+        <Level name="quarter" visible="true" table="period" column="quarter" uniqueMembers="false">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="sector" highCardinality="false" name="sector">
+      <Hierarchy name="Fuel-Type" visible="true" hasAll="true">
+        <Table name="gen_cons_sector">
+        </Table>
+        <Level name="type" visible="true" table="gen_cons_sector" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
