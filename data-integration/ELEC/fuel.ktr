@@ -152,7 +152,7 @@
            <schema_name/>
            </partitioning>
     <connection>PSE</connection>
-    <sql>SELECT  &#x60;id&#x60;,  &#x60;parent&#x60;,  &#x60;name&#x60;, &#x60;childseries&#x60;, &#x27;consumption&#x27; as dest_table&#xd;&#xa;FROM &#x60;pse&#x60;.&#x60;category&#x60; &#xd;&#xa;WHERE path LIKE &#x27;371&#x2f;0&#x2f;35&#x2f;379&#x2f;&#x27;&#xd;&#xa;ORDER BY &#x60;path_depth&#x60; ASC, &#x60;parent&#x60; ASC&#x3b;</sql>
+    <sql>SELECT  parent.&#x60;id&#x60;,  parent.&#x60;parent&#x60;,  parent.&#x60;name&#x60;, child.&#x60;childseries&#x60;, &#x27;consumption&#x27; as dest_table&#xd;&#xa;FROM &#x60;pse&#x60;.&#x60;category&#x60; child&#xd;&#xa;LEFT JOIN category parent ON &#x28;parent.id &#x3d; child.parent&#x29;&#xd;&#xa;WHERE child.path LIKE &#x27;371&#x2f;0&#x2f;35&#x2f;379&#x2f;&#x25;&#x2f;&#x27;&#xd;&#xa;ORDER BY parent.&#x60;path_depth&#x60; ASC, parent.&#x60;parent&#x60; ASC&#x3b;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -373,6 +373,76 @@
     </step>
 
   <step>
+    <name>Update dest-table 3</name>
+    <type>ExecSQL</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>PSE</connection>
+    <execute_each_row>Y</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>Y</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>UPDATE &#x3f; SET fuel &#x3d; &#x3f; WHERE series_id IN &#x28;&#x27;&#x3f;&#x27;&#x29;&#x3b;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+       <argument><name>dest_table</name></argument>
+       <argument><name>id</name></argument>
+       <argument><name>series_ids</name></argument>
+    </arguments>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>704</xloc>
+      <yloc>304</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Update dest-table 4</name>
+    <type>ExecSQL</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>PSE</connection>
+    <execute_each_row>Y</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>Y</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>UPDATE &#x3f; SET fuel &#x3d; &#x3f; WHERE series_id IN &#x28;&#x27;&#x3f;&#x27;&#x29;&#x3b;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+       <argument><name>dest_table</name></argument>
+       <argument><name>id</name></argument>
+       <argument><name>series_ids</name></argument>
+    </arguments>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>704</xloc>
+      <yloc>368</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>delete fuel-types</name>
     <type>ExecSQL</type>
     <description/>
@@ -480,7 +550,7 @@
            <schema_name/>
            </partitioning>
     <connection>PSE</connection>
-    <sql>SELECT  &#x60;id&#x60;,  &#x60;parent&#x60;,  &#x60;name&#x60;, &#x60;childseries&#x60;, &#x27;elec_net_gen&#x27; as dest_table&#xd;&#xa;FROM &#x60;pse&#x60;.&#x60;category&#x60; &#xd;&#xa;WHERE path LIKE &#x27;371&#x2f;0&#x2f;1&#x2f;3&#x2f;&#x27;&#xd;&#xa;ORDER BY &#x60;path_depth&#x60; ASC, &#x60;parent&#x60; ASC&#x3b;</sql>
+    <sql>SELECT  parent.&#x60;id&#x60;,  parent.&#x60;parent&#x60;,  parent.&#x60;name&#x60;, child.&#x60;childseries&#x60;, &#x27;elec_net_gen&#x27; as dest_table&#xd;&#xa;FROM &#x60;pse&#x60;.&#x60;category&#x60; child&#xd;&#xa;LEFT JOIN category parent ON &#x28;parent.id &#x3d; child.parent&#x29;&#xd;&#xa;WHERE child.path LIKE &#x27;371&#x2f;0&#x2f;1&#x2f;3&#x2f;&#x25;&#x2f;&#x27;&#xd;&#xa;ORDER BY parent.&#x60;path_depth&#x60; ASC, parent.&#x60;parent&#x60; ASC&#x3b;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -515,76 +585,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>320</xloc>
       <yloc>128</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Update dest-table 3</name>
-    <type>ExecSQL</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>PSE</connection>
-    <execute_each_row>Y</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>Y</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>UPDATE &#x3f; SET fuel &#x3d; &#x3f; WHERE series_id IN &#x28;&#x27;&#x3f;&#x27;&#x29;&#x3b;</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-       <argument><name>dest_table</name></argument>
-       <argument><name>id</name></argument>
-       <argument><name>series_ids</name></argument>
-    </arguments>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>704</xloc>
-      <yloc>304</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Update dest-table 4</name>
-    <type>ExecSQL</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>PSE</connection>
-    <execute_each_row>Y</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>Y</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>UPDATE &#x3f; SET fuel &#x3d; &#x3f; WHERE series_id IN &#x28;&#x27;&#x3f;&#x27;&#x29;&#x3b;</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-       <argument><name>dest_table</name></argument>
-       <argument><name>id</name></argument>
-       <argument><name>series_ids</name></argument>
-    </arguments>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>704</xloc>
-      <yloc>368</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
