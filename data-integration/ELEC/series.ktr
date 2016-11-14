@@ -112,7 +112,6 @@
   <hop> <from>Filter Consumption</from><to>Filter Retail</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Consumption</from><to>Consumption IN</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Retail</from><to>Retail IN</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter Retail</from><to>Write to log</to><enabled>Y</enabled> </hop>
   <hop> <from>State-Ret</from><to>Retail-Table</to><enabled>Y</enabled> </hop>
   <hop> <from>State-Con</from><to>CON-Table</to><enabled>Y</enabled> </hop>
   <hop> <from>generation IN</from><to>Filter rows</to><enabled>Y</enabled> </hop>
@@ -132,7 +131,32 @@
   <hop> <from>Filter Monat Retail</from><to>extract date&#x26;amount &#x28;Ret&#x29;</to><enabled>Y</enabled> </hop>
   <hop> <from>read line</from><to>Blocking Step</to><enabled>Y</enabled> </hop>
   <hop> <from>Blocking Step</from><to>filter generation</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter Retail</from><to>Write to log</to><enabled>Y</enabled> </hop>
   </order>
+  <step>
+    <name>Blocking Step</name>
+    <type>BlockingStep</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <pass_all_rows>Y</pass_all_rows>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>block</prefix>
+      <cache_size>5000</cache_size>
+      <compress>Y</compress>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>80</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
   <step>
     <name>CON-Table</name>
     <type>TableOutput</type>
@@ -727,7 +751,7 @@
     <connection>PSE</connection>
     <schema/>
     <table>elec_net_gen</table>
-    <commit>1000</commit>
+    <commit>10000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>N</use_batch>
@@ -1869,30 +1893,6 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>16</xloc>
-      <yloc>192</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Blocking Step</name>
-    <type>BlockingStep</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <pass_all_rows>Y</pass_all_rows>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>block</prefix>
-      <cache_size>5000</cache_size>
-      <compress>Y</compress>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>80</xloc>
       <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
