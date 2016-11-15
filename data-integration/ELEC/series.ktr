@@ -11,7 +11,7 @@
     <parameters>
         <parameter>
             <name>DATA_INPUT</name>
-            <default_value>C&#x3a;&#x5c;pentaho&#x5c;PSE&#x5c;json_files</default_value>
+            <default_value>Z&#x3a;&#x5c;json_files</default_value>
             <description/>
         </parameter>
     </parameters>
@@ -52,7 +52,7 @@
       <offset>0.0</offset>
       <maxdiff>0.0</maxdiff>
     </maxdate>
-    <size_rowset>30000</size_rowset>
+    <size_rowset>10000</size_rowset>
     <sleep_time_empty>50</sleep_time_empty>
     <sleep_time_full>50</sleep_time_full>
     <unique_connections>N</unique_connections>
@@ -79,27 +79,6 @@
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
-    <notepad>
-      <note>&#x22;Json Input&#x22; gibt NUllPointerException 153</note>
-      <xloc>30</xloc>
-      <yloc>30</yloc>
-      <width>235</width>
-      <heigth>26</heigth>
-      <fontname>Segoe UI</fontname>
-      <fontsize>9</fontsize>
-      <fontbold>N</fontbold>
-      <fontitalic>N</fontitalic>
-      <fontcolorred>0</fontcolorred>
-      <fontcolorgreen>0</fontcolorgreen>
-      <fontcolorblue>0</fontcolorblue>
-      <backgroundcolorred>255</backgroundcolorred>
-      <backgroundcolorgreen>205</backgroundcolorgreen>
-      <backgroundcolorblue>112</backgroundcolorblue>
-      <bordercolorred>100</bordercolorred>
-      <bordercolorgreen>100</bordercolorgreen>
-      <bordercolorblue>100</bordercolorblue>
-      <drawshadow>Y</drawshadow>
-    </notepad>
   </notepads>
   <connection>
     <name>PSE</name>
@@ -114,9 +93,6 @@
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
-      <attribute><code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code><attribute>true</attribute></attribute>
-      <attribute><code>EXTRA_OPTION_MYSQL.useCompression</code><attribute>true</attribute></attribute>
-      <attribute><code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code><attribute>false</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
@@ -130,31 +106,36 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>State-Gen</from><to>GEN-Table</to><enabled>Y</enabled> </hop>
-  <hop> <from>filter generation</from><to>filter consumption</to><enabled>Y</enabled> </hop>
-  <hop> <from>filter consumption</from><to>filter retail</to><enabled>Y</enabled> </hop>
-  <hop> <from>filter consumption</from><to>Consumption IN</to><enabled>Y</enabled> </hop>
-  <hop> <from>filter retail</from><to>Retail IN</to><enabled>Y</enabled> </hop>
-  <hop> <from>State-Ret</from><to>Retail-Table</to><enabled>Y</enabled> </hop>
-  <hop> <from>State-Con</from><to>CON-Table</to><enabled>Y</enabled> </hop>
-  <hop> <from>extract date&#x26;amount &#x28;Gen&#x29;</from><to>Calculator</to><enabled>Y</enabled> </hop>
-  <hop> <from>Calculator</from><to>Period-Gen</to><enabled>Y</enabled> </hop>
-  <hop> <from>Period-Gen</from><to>State-Gen</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows</from><to>extract date&#x26;amount &#x28;Gen&#x29;</to><enabled>Y</enabled> </hop>
   <hop> <from>Period-Con</from><to>State-Con</to><enabled>Y</enabled> </hop>
-  <hop> <from>Period-Retail</from><to>State-Ret</to><enabled>Y</enabled> </hop>
   <hop> <from>extract date&#x26;amount &#x28;Cons&#x29;</from><to>Calculator 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Calculator 2</from><to>Period-Con</to><enabled>Y</enabled> </hop>
-  <hop> <from>extract date&#x26;amount &#x28;Ret&#x29;</from><to>Calculator 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Calculator 3</from><to>Period-Retail</to><enabled>Y</enabled> </hop>
   <hop> <from>Consumption IN</from><to>Filter Monat Consum</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Monat Consum</from><to>extract date&#x26;amount &#x28;Cons&#x29;</to><enabled>Y</enabled> </hop>
-  <hop> <from>Retail IN</from><to>Filter Monat Retail</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter Monat Retail</from><to>extract date&#x26;amount &#x28;Ret&#x29;</to><enabled>Y</enabled> </hop>
-  <hop> <from>filter retail</from><to>Write to log</to><enabled>Y</enabled> </hop>
-  <hop> <from>read line</from><to>filter generation</to><enabled>Y</enabled> </hop>
-  <hop> <from>filter generation</from><to>generation IN</to><enabled>Y</enabled> </hop>
-  <hop> <from>generation IN</from><to>Filter rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>filter generation</from><to>GEN-Table</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter Consumption</from><to>CON-Table</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter Retail</from><to>Retail-Table</to><enabled>Y</enabled> </hop>
+  <hop> <from>read line</from><to>Consumption IN</to><enabled>Y</enabled> </hop>
+  <hop> <from>Calculator 2 2</from><to>Period-Con 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Period-Con 2</from><to>State-Con 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Calculator 2 3</from><to>Period-Con 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Period-Con 3</from><to>State-Con 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Calculator 2 4</from><to>Period-Con 4</to><enabled>Y</enabled> </hop>
+  <hop> <from>Period-Con 4</from><to>State-Con 4</to><enabled>Y</enabled> </hop>
+  <hop> <from>extract date&#x26;amount &#x28;Cons&#x29;</from><to>Calculator 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>extract date&#x26;amount &#x28;Cons&#x29;</from><to>Calculator 2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>extract date&#x26;amount &#x28;Cons&#x29;</from><to>Calculator 2 4</to><enabled>Y</enabled> </hop>
+  <hop> <from>State-Con</from><to>filter generation</to><enabled>Y</enabled> </hop>
+  <hop> <from>State-Con 2</from><to>filter generation</to><enabled>Y</enabled> </hop>
+  <hop> <from>State-Con 3</from><to>filter generation</to><enabled>Y</enabled> </hop>
+  <hop> <from>State-Con 4</from><to>filter generation</to><enabled>Y</enabled> </hop>
+  <hop> <from>State-Con</from><to>Filter Consumption</to><enabled>Y</enabled> </hop>
+  <hop> <from>State-Con</from><to>Filter Retail</to><enabled>Y</enabled> </hop>
+  <hop> <from>State-Con 2</from><to>Filter Consumption</to><enabled>Y</enabled> </hop>
+  <hop> <from>State-Con 2</from><to>Filter Retail</to><enabled>Y</enabled> </hop>
+  <hop> <from>State-Con 3</from><to>Filter Consumption</to><enabled>Y</enabled> </hop>
+  <hop> <from>State-Con 3</from><to>Filter Retail</to><enabled>Y</enabled> </hop>
+  <hop> <from>State-Con 4</from><to>Filter Consumption</to><enabled>Y</enabled> </hop>
+  <hop> <from>State-Con 4</from><to>Filter Retail</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>CON-Table</name>
@@ -170,7 +151,7 @@
     <connection>PSE</connection>
     <schema/>
     <table>consumption</table>
-    <commit>10000</commit>
+    <commit>1</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
@@ -208,69 +189,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>990</xloc>
-      <yloc>210</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Calculator</name>
-    <type>Calculator</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-       <calculation><field_name>month</field_name>
-<calc_type>MONTH_OF_DATE</calc_type>
-<field_a>date</field_a>
-<field_b/>
-<field_c/>
-<value_type>None</value_type>
-<value_length>-1</value_length>
-<value_precision>-1</value_precision>
-<remove>N</remove>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<currency_symbol/>
-</calculation>
-       <calculation><field_name>quarter</field_name>
-<calc_type>QUARTER_OF_DATE</calc_type>
-<field_a>date</field_a>
-<field_b/>
-<field_c/>
-<value_type>None</value_type>
-<value_length>-1</value_length>
-<value_precision>-1</value_precision>
-<remove>N</remove>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<currency_symbol/>
-</calculation>
-       <calculation><field_name>year</field_name>
-<calc_type>YEAR_OF_DATE</calc_type>
-<field_a>date</field_a>
-<field_b/>
-<field_c/>
-<value_type>None</value_type>
-<value_length>-1</value_length>
-<value_precision>-1</value_precision>
-<remove>N</remove>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<currency_symbol/>
-</calculation>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>690</xloc>
-      <yloc>120</yloc>
+      <xloc>1344</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -330,14 +250,14 @@
 </calculation>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>690</xloc>
-      <yloc>210</yloc>
+      <xloc>720</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Calculator 3</name>
+    <name>Calculator 2 2</name>
     <type>Calculator</type>
     <description/>
     <distribute>Y</distribute>
@@ -391,8 +311,130 @@
 </calculation>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>690</xloc>
-      <yloc>300</yloc>
+      <xloc>719</xloc>
+      <yloc>283</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Calculator 2 3</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+       <calculation><field_name>month</field_name>
+<calc_type>MONTH_OF_DATE</calc_type>
+<field_a>date</field_a>
+<field_b/>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+       <calculation><field_name>quarter</field_name>
+<calc_type>QUARTER_OF_DATE</calc_type>
+<field_a>date</field_a>
+<field_b/>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+       <calculation><field_name>year</field_name>
+<calc_type>YEAR_OF_DATE</calc_type>
+<field_a>date</field_a>
+<field_b/>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>720</xloc>
+      <yloc>368</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Calculator 2 4</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+       <calculation><field_name>month</field_name>
+<calc_type>MONTH_OF_DATE</calc_type>
+<field_a>date</field_a>
+<field_b/>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+       <calculation><field_name>quarter</field_name>
+<calc_type>QUARTER_OF_DATE</calc_type>
+<field_a>date</field_a>
+<field_b/>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+       <calculation><field_name>year</field_name>
+<calc_type>YEAR_OF_DATE</calc_type>
+<field_a>date</field_a>
+<field_b/>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>720</xloc>
+      <yloc>448</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -585,14 +627,14 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>270</xloc>
-      <yloc>210</yloc>
+      <xloc>272</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>filter consumption</name>
+    <name>Filter Consumption</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -602,8 +644,8 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Consumption IN</send_true_to>
-<send_false_to>filter retail</send_false_to>
+<send_true_to>CON-Table</send_true_to>
+<send_false_to/>
     <compare>
 <condition>
  <negated>N</negated>
@@ -614,8 +656,8 @@
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>150</xloc>
-      <yloc>210</yloc>
+      <xloc>1216</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -643,14 +685,14 @@
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>390</xloc>
-      <yloc>210</yloc>
+      <xloc>400</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Filter Monat Retail</name>
+    <name>Filter Retail</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -660,37 +702,8 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>extract date&#x26;amount &#x28;Ret&#x29;</send_true_to>
+<send_true_to>Retail-Table</send_true_to>
 <send_false_to/>
-    <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>f</leftvalue>
- <function>LIKE</function>
- <rightvalue/>
- <value><name>constant</name><type>String</type><text>M</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
-    </compare>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>390</xloc>
-      <yloc>300</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>filter retail</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<send_true_to>Retail IN</send_true_to>
-<send_false_to>Write to log</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
@@ -701,37 +714,8 @@
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>150</xloc>
-      <yloc>300</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Filter rows</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<send_true_to>extract date&#x26;amount &#x28;Gen&#x29;</send_true_to>
-<send_false_to/>
-    <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>f</leftvalue>
- <function>LIKE</function>
- <rightvalue/>
- <value><name>constant</name><type>String</type><text>M</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
-    </compare>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>390</xloc>
-      <yloc>120</yloc>
+      <xloc>1216</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -750,7 +734,7 @@
     <connection>PSE</connection>
     <schema/>
     <table>elec_net_gen</table>
-    <commit>10000</commit>
+    <commit>1</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>N</use_batch>
@@ -788,8 +772,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>990</xloc>
-      <yloc>120</yloc>
+      <xloc>1344</xloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -837,14 +821,14 @@
       <last_update_field/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>810</xloc>
-      <yloc>210</yloc>
+      <xloc>848</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Period-Gen</name>
+    <name>Period-Con 2</name>
     <type>CombinationLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -886,14 +870,14 @@
       <last_update_field/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>810</xloc>
-      <yloc>120</yloc>
+      <xloc>847</xloc>
+      <yloc>283</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Period-Retail</name>
+    <name>Period-Con 3</name>
     <type>CombinationLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -935,15 +919,15 @@
       <last_update_field/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>810</xloc>
-      <yloc>300</yloc>
+      <xloc>848</xloc>
+      <yloc>368</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Retail IN</name>
-    <type>JsonInput</type>
+    <name>Period-Con 4</name>
+    <type>CombinationLookup</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -952,185 +936,40 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <include>N</include>
-    <include_field/>
-    <rownum>N</rownum>
-    <addresultfile>N</addresultfile>
-    <readurl>N</readurl>
-    <removeSourceField>N</removeSourceField>
-    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
-    <doNotFailIfNoFile>N</doNotFailIfNoFile>
-    <ignoreMissingPath>N</ignoreMissingPath>
-    <defaultPathLeafToNull>N</defaultPathLeafToNull>
-    <rownum_field/>
-    <file>
-      <name>D&#x3a;&#x5c;pentaho&#x5c;EIA&#x5c;DATA_INPUT&#x5c;series.txt</name>
-      <filemask/>
-      <exclude_filemask/>
-      <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
-    </file>
-    <fields>
-      <field>
-        <name>series_id</name>
-        <path>series_id</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>name</name>
-        <path>name</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>units</name>
-        <path>units</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>f</name>
-        <path>f</path>
-        <type>None</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>copyright</name>
-        <path>copyright</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>source</name>
-        <path>source</path>
-        <type>None</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>geography</name>
-        <path>geography</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>start</name>
-        <path>start</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>end</name>
-        <path>end</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>last_updated</name>
-        <path>last_updated</path>
-        <type>Date</type>
-        <format>yyyy-MM-dd&#x27;T&#x27;HH&#x3a;mm&#x3a;ssXXX</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>data</name>
-        <path>data</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-    </fields>
-    <limit>0</limit>
-    <IsInFields>Y</IsInFields>
-    <IsAFile>N</IsAFile>
-    <valueField>line</valueField>
-    <shortFileFieldName/>
-    <pathFieldName/>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <sizeFieldName/>
+      <schema/>
+      <table>period</table>
+      <connection>PSE</connection>
+      <commit>100</commit>
+      <cache_size>9999</cache_size>
+      <replace>N</replace>
+      <preloadCache>N</preloadCache>
+      <crc>N</crc>
+      <crcfield>hashcode</crcfield>
+      <fields>
+        <key>
+          <name>month</name>
+          <lookup>month</lookup>
+        </key>
+        <key>
+          <name>quarter</name>
+          <lookup>quarter</lookup>
+        </key>
+        <key>
+          <name>year</name>
+          <lookup>year</lookup>
+        </key>
+        <return>
+          <name>Id</name>
+          <creation_method>autoinc</creation_method>
+          <use_autoinc>Y</use_autoinc>
+        </return>
+      </fields>
+      <sequence/>
+      <last_update_field/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>270</xloc>
-      <yloc>300</yloc>
+      <xloc>848</xloc>
+      <yloc>448</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1149,7 +988,7 @@
     <connection>PSE</connection>
     <schema/>
     <table>elec_retail</table>
-    <commit>50254</commit>
+    <commit>1</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
@@ -1187,8 +1026,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>990</xloc>
-      <yloc>300</yloc>
+      <xloc>1344</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1197,7 +1036,7 @@
     <name>State-Con</name>
     <type>CombinationLookup</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -1228,58 +1067,17 @@
       <last_update_field/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>900</xloc>
-      <yloc>210</yloc>
+      <xloc>944</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>State-Gen</name>
+    <name>State-Con 2</name>
     <type>CombinationLookup</type>
     <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <schema/>
-      <table>state</table>
-      <connection>PSE</connection>
-      <commit>100</commit>
-      <cache_size>9999</cache_size>
-      <replace>N</replace>
-      <preloadCache>N</preloadCache>
-      <crc>N</crc>
-      <crcfield>hashcode</crcfield>
-      <fields>
-        <key>
-          <name>geography</name>
-          <lookup>name</lookup>
-        </key>
-        <return>
-          <name>id</name>
-          <creation_method>autoinc</creation_method>
-          <use_autoinc>Y</use_autoinc>
-        </return>
-      </fields>
-      <sequence/>
-      <last_update_field/>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>900</xloc>
-      <yloc>120</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>State-Ret</name>
-    <type>CombinationLookup</type>
-    <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -1302,45 +1100,98 @@
         </key>
         <return>
           <name>Id</name>
-          <creation_method>autoinc</creation_method>
-          <use_autoinc>Y</use_autoinc>
+          <creation_method>tablemax</creation_method>
+          <use_autoinc>N</use_autoinc>
         </return>
       </fields>
       <sequence/>
       <last_update_field/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>900</xloc>
-      <yloc>300</yloc>
+      <xloc>943</xloc>
+      <yloc>283</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Write to log</name>
-    <type>WriteToLog</type>
+    <name>State-Con 3</name>
+    <type>CombinationLookup</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <loglevel>log_level_basic</loglevel>
-      <displayHeader>Y</displayHeader>
-      <limitRows>N</limitRows>
-      <limitRowsNumber>0</limitRowsNumber>
-      <logmessage/>
-    <fields>
-      <field>
-        <name>line</name>
-        </field>
+      <schema/>
+      <table>state</table>
+      <connection>PSE</connection>
+      <commit>100</commit>
+      <cache_size>9999</cache_size>
+      <replace>N</replace>
+      <preloadCache>N</preloadCache>
+      <crc>N</crc>
+      <crcfield>hashcode</crcfield>
+      <fields>
+        <key>
+          <name>geography</name>
+          <lookup>name</lookup>
+        </key>
+        <return>
+          <name>Id</name>
+          <creation_method>tablemax</creation_method>
+          <use_autoinc>N</use_autoinc>
+        </return>
       </fields>
+      <sequence/>
+      <last_update_field/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>30</xloc>
-      <yloc>300</yloc>
+      <xloc>944</xloc>
+      <yloc>368</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>State-Con 4</name>
+    <type>CombinationLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <schema/>
+      <table>state</table>
+      <connection>PSE</connection>
+      <commit>100</commit>
+      <cache_size>9999</cache_size>
+      <replace>N</replace>
+      <preloadCache>N</preloadCache>
+      <crc>N</crc>
+      <crcfield>hashcode</crcfield>
+      <fields>
+        <key>
+          <name>geography</name>
+          <lookup>name</lookup>
+        </key>
+        <return>
+          <name>Id</name>
+          <creation_method>tablemax</creation_method>
+          <use_autoinc>N</use_autoinc>
+        </return>
+      </fields>
+      <sequence/>
+      <last_update_field/>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>944</xloc>
+      <yloc>448</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1416,162 +1267,8 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>540</xloc>
-      <yloc>210</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>extract date&#x26;amount &#x28;Gen&#x29;</name>
-    <type>JsonInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <include>N</include>
-    <include_field/>
-    <rownum>N</rownum>
-    <addresultfile>N</addresultfile>
-    <readurl>N</readurl>
-    <removeSourceField>N</removeSourceField>
-    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
-    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
-    <ignoreMissingPath>N</ignoreMissingPath>
-    <defaultPathLeafToNull>N</defaultPathLeafToNull>
-    <rownum_field/>
-    <file>
-      <name/>
-      <filemask/>
-      <exclude_filemask/>
-      <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
-    </file>
-    <fields>
-      <field>
-        <name>date</name>
-        <path>&#x24;.&#x5b;&#x2a;&#x5d;&#x5b;0&#x5d;</path>
-        <type>Date</type>
-        <format>yyyyMM</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>amount</name>
-        <path>&#x24;.&#x5b;&#x2a;&#x5d;&#x5b;1&#x5d;</path>
-        <type>Number</type>
-        <format>&#x23;.&#x23;&#x23;&#x23;</format>
-        <currency/>
-        <decimal>.</decimal>
-        <group/>
-        <length>-1</length>
-        <precision>3</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-    </fields>
-    <limit>0</limit>
-    <IsInFields>Y</IsInFields>
-    <IsAFile>N</IsAFile>
-    <valueField>data</valueField>
-    <shortFileFieldName/>
-    <pathFieldName/>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <sizeFieldName/>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>540</xloc>
-      <yloc>120</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>extract date&#x26;amount &#x28;Ret&#x29;</name>
-    <type>JsonInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <include>N</include>
-    <include_field/>
-    <rownum>N</rownum>
-    <addresultfile>N</addresultfile>
-    <readurl>N</readurl>
-    <removeSourceField>N</removeSourceField>
-    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
-    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
-    <ignoreMissingPath>N</ignoreMissingPath>
-    <defaultPathLeafToNull>N</defaultPathLeafToNull>
-    <rownum_field/>
-    <file>
-      <name/>
-      <filemask/>
-      <exclude_filemask/>
-      <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
-    </file>
-    <fields>
-      <field>
-        <name>date</name>
-        <path>&#x24;.&#x5b;&#x2a;&#x5d;&#x5b;0&#x5d;</path>
-        <type>Date</type>
-        <format>yyyyMM</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>amount</name>
-        <path>&#x24;.&#x5b;&#x2a;&#x5d;&#x5b;1&#x5d;</path>
-        <type>Number</type>
-        <format>&#x23;.&#x23;&#x23;&#x23;</format>
-        <currency/>
-        <decimal>.</decimal>
-        <group/>
-        <length>-1</length>
-        <precision>3</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-    </fields>
-    <limit>0</limit>
-    <IsInFields>Y</IsInFields>
-    <IsAFile>N</IsAFile>
-    <valueField>data</valueField>
-    <shortFileFieldName/>
-    <pathFieldName/>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <sizeFieldName/>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>540</xloc>
-      <yloc>300</yloc>
+      <xloc>560</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1587,8 +1284,8 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>generation IN</send_true_to>
-<send_false_to>filter consumption</send_false_to>
+<send_true_to>GEN-Table</send_true_to>
+<send_false_to/>
     <compare>
 <condition>
  <negated>N</negated>
@@ -1599,202 +1296,8 @@
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>150</xloc>
-      <yloc>120</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>generation IN</name>
-    <type>JsonInput</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <include>N</include>
-    <include_field/>
-    <rownum>N</rownum>
-    <addresultfile>N</addresultfile>
-    <readurl>N</readurl>
-    <removeSourceField>N</removeSourceField>
-    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
-    <doNotFailIfNoFile>N</doNotFailIfNoFile>
-    <ignoreMissingPath>N</ignoreMissingPath>
-    <defaultPathLeafToNull>N</defaultPathLeafToNull>
-    <rownum_field/>
-    <file>
-      <name/>
-      <filemask/>
-      <exclude_filemask/>
-      <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
-    </file>
-    <fields>
-      <field>
-        <name>series_id</name>
-        <path>series_id</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>name</name>
-        <path>name</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>units</name>
-        <path>units</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>f</name>
-        <path>f</path>
-        <type>None</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>copyright</name>
-        <path>copyright</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>source</name>
-        <path>source</path>
-        <type>None</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>geography</name>
-        <path>geography</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>start</name>
-        <path>start</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>end</name>
-        <path>end</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>last_updated</name>
-        <path>last_updated</path>
-        <type>Date</type>
-        <format>yyyy-MM-dd&#x27;T&#x27;HH&#x3a;mm&#x3a;ssXXX</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>data</name>
-        <path>data</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-    </fields>
-    <limit>0</limit>
-    <IsInFields>Y</IsInFields>
-    <IsAFile>N</IsAFile>
-    <valueField>line</valueField>
-    <shortFileFieldName/>
-    <pathFieldName/>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <sizeFieldName/>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>270</xloc>
-      <yloc>120</yloc>
+      <xloc>1216</xloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1803,9 +1306,9 @@
     <name>read line</name>
     <type>TextFileInput</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
-    <copies>2</copies>
+    <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
@@ -1891,37 +1394,13 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>30</xloc>
-      <yloc>120</yloc>
+      <xloc>16</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step_error_handling>
-      <error>
-        <source_step>extract date&#x26;amount &#x28;Gen&#x29;</source_step>
-        <target_step/>
-        <is_enabled>N</is_enabled>
-        <nr_valuename/>
-        <descriptions_valuename/>
-        <fields_valuename/>
-        <codes_valuename/>
-        <max_errors/>
-        <max_pct_errors/>
-        <min_pct_rows/>
-      </error>
-      <error>
-        <source_step>generation IN</source_step>
-        <target_step>Dummy &#x28;do nothing&#x29;</target_step>
-        <is_enabled>Y</is_enabled>
-        <nr_valuename/>
-        <descriptions_valuename/>
-        <fields_valuename/>
-        <codes_valuename/>
-        <max_errors/>
-        <max_pct_errors/>
-        <min_pct_rows/>
-      </error>
   </step_error_handling>
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
