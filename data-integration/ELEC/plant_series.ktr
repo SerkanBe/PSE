@@ -81,8 +81,8 @@
   <notepads>
     <notepad>
       <note>PerformanceOptimierungsTipps&#x3a;&#xd;&#xa;1.&#xd;&#xa;Java Memory Limit auf zB 4500 MB, erh&#xf6;hen damit es schneller durchl&#xe4;uft.&#xd;&#xa;-&#x3e;Hier steht wie&#x3a; https&#x3a;&#x2f;&#x2f;help.pentaho.com&#x2f;Documentation&#x2f;5.2&#x2f;0P0&#x2f;100&#x2f;090&#x2f;040&#xd;&#xa;2. Links im Explorer-Fenster unter &#x22;Transformation&#x2f;Database connection&#x2f;pse&#x2f;Options&#xd;&#xa;folgende Werte in das rechte Fenster &#x28;mit TB &#x22;Parameters&#x22;&#x29; eintragen&#x3a;&#xd;&#xa;rewriteBatchedStatements&#x3d;true&#xd;&#xa;useServerPrepStmts&#x3d;false&#xd;&#xa;useCompression&#x3d;true</note>
-      <xloc>990</xloc>
-      <yloc>90</yloc>
+      <xloc>840</xloc>
+      <yloc>60</yloc>
       <width>461</width>
       <heigth>154</heigth>
       <fontname>Segoe UI</fontname>
