@@ -80,11 +80,11 @@
   </info>
   <notepads>
     <notepad>
-      <note>&#x22;Json Input&#x22; gibt NUllPointerException 153</note>
+      <note>&#x22;Json Input&#x22; gibt NUllPointerException 153&#xd;&#xa;&#xd;&#xa;Stoppt aufgrund von Fehler in &#x22;generation IN&#x22;&#xd;&#xa;</note>
       <xloc>30</xloc>
       <yloc>30</yloc>
-      <width>235</width>
-      <heigth>26</heigth>
+      <width>253</width>
+      <heigth>72</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -147,7 +147,6 @@
   <hop> <from>Calculator 2</from><to>Period-Con</to><enabled>Y</enabled> </hop>
   <hop> <from>extract date&#x26;amount &#x28;Ret&#x29;</from><to>Calculator 3</to><enabled>Y</enabled> </hop>
   <hop> <from>Calculator 3</from><to>Period-Retail</to><enabled>Y</enabled> </hop>
-  <hop> <from>Consumption IN</from><to>Filter Monat Consum</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Monat Consum</from><to>extract date&#x26;amount &#x28;Cons&#x29;</to><enabled>Y</enabled> </hop>
   <hop> <from>Retail IN</from><to>Filter Monat Retail</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Monat Retail</from><to>extract date&#x26;amount &#x28;Ret&#x29;</to><enabled>Y</enabled> </hop>
@@ -155,6 +154,7 @@
   <hop> <from>read line</from><to>filter generation</to><enabled>Y</enabled> </hop>
   <hop> <from>filter generation</from><to>generation IN</to><enabled>Y</enabled> </hop>
   <hop> <from>generation IN</from><to>Filter rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>Consumption IN</from><to>Filter Monat Consum</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>CON-Table</name>
@@ -592,35 +592,6 @@
     </step>
 
   <step>
-    <name>filter consumption</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<send_true_to>Consumption IN</send_true_to>
-<send_false_to>filter retail</send_false_to>
-    <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>line</leftvalue>
- <function>REGEXP</function>
- <rightvalue/>
- <value><name>constant</name><type>String</type><text>&#x5c;&#x7b;&#x22;series_id&#x22;&#x3a;&#x22;ELEC&#x5c;.CONS_.&#x2a;&#x5c;..&#x2a;&#x24;</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
-    </compare>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>150</xloc>
-      <yloc>210</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>Filter Monat Consum</name>
     <type>FilterRows</type>
     <description/>
@@ -673,35 +644,6 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>390</xloc>
-      <yloc>300</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>filter retail</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<send_true_to>Retail IN</send_true_to>
-<send_false_to>Write to log</send_false_to>
-    <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>line</leftvalue>
- <function>REGEXP</function>
- <rightvalue/>
- <value><name>constant</name><type>String</type><text>&#x5e;&#x5c;&#x7b;&#x22;series_id&#x22;&#x3a;&#x22;ELEC&#x5c;.SALES&#x5c;..&#x2a;&#x24;</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
-    </compare>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>150</xloc>
       <yloc>300</yloc>
       <draw>Y</draw>
       </GUI>
@@ -1577,6 +1519,35 @@
     </step>
 
   <step>
+    <name>filter consumption</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Consumption IN</send_true_to>
+<send_false_to>filter retail</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>line</leftvalue>
+ <function>REGEXP</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>&#x5c;&#x7b;&#x22;series_id&#x22;&#x3a;&#x22;ELEC&#x5c;.CONS_.&#x2a;&#x5c;..&#x2a;&#x24;</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>150</xloc>
+      <yloc>210</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>filter generation</name>
     <type>FilterRows</type>
     <description/>
@@ -1601,6 +1572,35 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>150</xloc>
       <yloc>120</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>filter retail</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Retail IN</send_true_to>
+<send_false_to>Write to log</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>line</leftvalue>
+ <function>REGEXP</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>&#x5e;&#x5c;&#x7b;&#x22;series_id&#x22;&#x3a;&#x22;ELEC&#x5c;.SALES&#x5c;..&#x2a;&#x24;</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>150</xloc>
+      <yloc>300</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1912,7 +1912,7 @@
       </error>
       <error>
         <source_step>generation IN</source_step>
-        <target_step>Dummy &#x28;do nothing&#x29;</target_step>
+        <target_step/>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
