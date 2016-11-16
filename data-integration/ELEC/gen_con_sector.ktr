@@ -74,6 +74,27 @@
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
+    <notepad>
+      <note>Folgefehler aus series-Transformation. gleicher Nullpointer Fehler 153.&#xd;&#xa;Fehler bei &#x22;get series_ids&#x22;&#xd;&#xa;Stoppt gleich am Anfang</note>
+      <xloc>240</xloc>
+      <yloc>90</yloc>
+      <width>378</width>
+      <heigth>58</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
   </notepads>
   <connection>
     <name>PSE</name>
@@ -89,7 +110,10 @@
     <index_tablespace/>
     <attributes>
       <attribute><code>EXTRA_OPTION_MYSQL.defaultFetchSize</code><attribute>500</attribute></attribute>
+      <attribute><code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code><attribute>true</attribute></attribute>
+      <attribute><code>EXTRA_OPTION_MYSQL.useCompression</code><attribute>true</attribute></attribute>
       <attribute><code>EXTRA_OPTION_MYSQL.useCursorFetch</code><attribute>true</attribute></attribute>
+      <attribute><code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code><attribute>false</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
@@ -111,10 +135,8 @@
   <hop> <from>get series_ids</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
   <hop> <from>Consumption Sector IN</from><to>Parent is root&#x3f;</to><enabled>Y</enabled> </hop>
   <hop> <from>Block this step until steps finish</from><to>Update dest-table</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish</from><to>Update dest-table 2</to><enabled>Y</enabled> </hop>
   <hop> <from>get series_ids</from><to>error getting series_id</to><enabled>Y</enabled> </hop>
-  <hop> <from>Parent is root&#x3f;</from><to>Set parent as ID</to><enabled>Y</enabled> </hop>
-  <hop> <from>Set parent as ID</from><to>wait for delete</to><enabled>Y</enabled> </hop>
+  <hop> <from>Parent is root&#x3f;</from><to>wait for delete</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Block this step until steps finish</name>
@@ -135,8 +157,8 @@
       </steps>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>576</xloc>
-      <yloc>304</yloc>
+      <xloc>630</xloc>
+      <yloc>300</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -153,7 +175,7 @@
            <schema_name/>
            </partitioning>
     <connection>PSE</connection>
-    <sql>SELECT  &#x60;id&#x60;,  &#x60;parent&#x60;,  &#x60;name&#x60;, &#x60;childseries&#x60;, &#x27;consumption&#x27; as dest_table&#xd;&#xa;FROM &#x60;pse&#x60;.&#x60;category&#x60; &#xd;&#xa;WHERE path LIKE &#x27;371&#x2f;0&#x2f;35&#x2f;378&#x2f;&#x25;&#x2f;&#x27;&#xd;&#xa;ORDER BY &#x60;path_depth&#x60; ASC, &#x60;parent&#x60; ASC&#x3b;</sql>
+    <sql>SELECT parent.id, parent.parent, parent.name, child.childseries, &#x27;consumption&#x27; as dest_table&#xd;&#xa;FROM category child&#xd;&#xa;LEFT JOIN category parent ON &#x28;parent.id &#x3d; child.parent&#x29;&#xd;&#xa;WHERE child.path LIKE &#x27;371&#x2f;0&#x2f;35&#x2f;378&#x2f;&#x25;&#x2f;&#x27;&#xd;&#xa;ORDER BY parent.path_depth ASC, parent.parent ASC&#x3b;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -161,8 +183,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>48</xloc>
-      <yloc>288</yloc>
+      <xloc>90</xloc>
+      <yloc>300</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -209,7 +231,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>480</xloc>
-      <yloc>192</yloc>
+      <yloc>180</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -247,8 +269,8 @@
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>448</xloc>
-      <yloc>304</yloc>
+      <xloc>480</xloc>
+      <yloc>300</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -272,8 +294,8 @@
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>208</xloc>
-      <yloc>192</yloc>
+      <xloc>210</xloc>
+      <yloc>180</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -297,33 +319,8 @@
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>144</xloc>
-      <yloc>272</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Set parent as ID</name>
-    <type>SetValueField</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>id</name>
-        <replaceby>parent</replaceby>
-        </field>
-      </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>240</xloc>
-      <yloc>288</yloc>
+      <xloc>210</xloc>
+      <yloc>300</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -334,7 +331,7 @@
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
-    <copies>1</copies>
+    <copies>2</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
@@ -357,43 +354,8 @@
     </arguments>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>720</xloc>
-      <yloc>240</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Update dest-table 2</name>
-    <type>ExecSQL</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>PSE</connection>
-    <execute_each_row>Y</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>Y</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>UPDATE &#x3f; SET sector &#x3d; &#x3f; WHERE series_id IN &#x28;&#x27;&#x3f;&#x27;&#x29;&#x3b;</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-       <argument><name>dest_table</name></argument>
-       <argument><name>id</name></argument>
-       <argument><name>series_ids</name></argument>
-    </arguments>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>720</xloc>
-      <yloc>304</yloc>
+      <xloc>630</xloc>
+      <yloc>180</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -424,8 +386,8 @@
     </arguments>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>112</xloc>
-      <yloc>96</yloc>
+      <xloc>90</xloc>
+      <yloc>120</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -453,8 +415,8 @@
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>240</xloc>
-      <yloc>384</yloc>
+      <xloc>330</xloc>
+      <yloc>420</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -517,8 +479,8 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>336</xloc>
-      <yloc>304</yloc>
+      <xloc>330</xloc>
+      <yloc>300</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -535,7 +497,7 @@
            <schema_name/>
            </partitioning>
     <connection>PSE</connection>
-    <sql>SELECT  &#x60;id&#x60;,  &#x60;parent&#x60;,  &#x60;name&#x60;, &#x60;childseries&#x60;, &#x27;elec_net_gen&#x27; as dest_table&#xd;&#xa;FROM &#x60;pse&#x60;.&#x60;category&#x60; &#xd;&#xa;WHERE path &#x3d; &#x27;371&#x2f;0&#x2f;1&#x2f;2&#x2f;&#x27;&#xd;&#xa;ORDER BY &#x60;path_depth&#x60; ASC, &#x60;parent&#x60; ASC&#x3b;</sql>
+    <sql>SELECT parent.id, parent.parent, parent.name, child.childseries, &#x27;elec_net_gen&#x27; as dest_table&#xd;&#xa;FROM category child&#xd;&#xa;LEFT JOIN category parent ON &#x28;parent.id &#x3d; child.parent&#x29;&#xd;&#xa;WHERE child.path LIKE &#x27;371&#x2f;0&#x2f;1&#x2f;2&#x2f;&#x25;&#x2f;&#x27;&#xd;&#xa;ORDER BY parent.path_depth ASC, parent.parent ASC&#x3b;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -543,8 +505,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>112</xloc>
-      <yloc>192</yloc>
+      <xloc>90</xloc>
+      <yloc>180</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -568,8 +530,8 @@
       </steps>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>336</xloc>
-      <yloc>192</yloc>
+      <xloc>330</xloc>
+      <yloc>180</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
