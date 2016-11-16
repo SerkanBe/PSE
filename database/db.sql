@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server Version:               5.5.27 - MySQL Community Server (GPL)
+-- Server Version:            statecategorycategory_treeelec_net_genelec_net_gen   5.5.27 - MySQL Community Server (GPL)
 -- Server Betriebssystem:        Win32
 -- HeidiSQL Version:             9.4.0.5125
 -- --------------------------------------------------------

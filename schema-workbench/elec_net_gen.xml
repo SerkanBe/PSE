@@ -1,28 +1,34 @@
-<Schema name="New Schema1">
+<Schema name="ELEC NET GEN">
   <Cube name="ELEC Generation" visible="true" cache="true" enabled="true">
-    <Table name="elec_net_gen" alias="">
+    <Table name="elec_net_gen">
     </Table>
-    <Dimension type="StandardDimension" visible="true" name="fuel-type">
-      <Hierarchy name="Coal" visible="true" hasAll="true" primaryKeyTable="fuel">
-        <Level name="Coal" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false">
+    <Dimension type="StandardDimension" visible="true" foreignKey="fuel" highCardinality="false" name="fuel-type">
+      <Hierarchy name="Fuel-Type" visible="true" hasAll="true">
+        <Table name="fuel" alias="fuel">
+        </Table>
+        <Level name="type" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never" caption="FuelCaption">
         </Level>
       </Hierarchy>
-      <Hierarchy name="Petroleum liquids" visible="true" hasAll="true" primaryKeyTable="fuel">
-        <Level name="Petroleum liquids" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false">
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="period" highCardinality="false" name="period">
+      <Hierarchy name="Period" visible="true" hasAll="true">
+        <Table name="period">
+        </Table>
+        <Level name="year" visible="true" table="period" column="year" nameColumn="year" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="month" visible="true" table="period" column="month" nameColumn="month" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="quarter" visible="true" table="period" column="quarter" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
-      <Hierarchy name="Petroleum coke" visible="true" hasAll="true" primaryKeyTable="fuel">
-        <Level name="Petroleum coke" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false">
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="sector" highCardinality="false" name="sector">
+      <Hierarchy name="sector" visible="true" hasAll="true">
+        <Table name="gen_cons_sector">
+        </Table>
+        <Level name="sector" visible="true" table="gen_cons_sector" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
-      <Hierarchy name="Natural gas" visible="true" hasAll="true" primaryKeyTable="fuel">
-        <Level name="Natural gas" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false">
-        </Level>
-      </Hierarchy>
-      <Hierarchy name="Other gases" visible="true" hasAll="true" primaryKeyTable="fuel">
-        <Level name="Other gases" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false">
-        </Level>
-      </Hierarchy>	  
     </Dimension>
     <Measure name="Energy" column="amount" datatype="Numeric" aggregator="sum" visible="true">
     </Measure>
