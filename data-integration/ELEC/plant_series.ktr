@@ -1203,7 +1203,7 @@
     <encoding/>
     <add_to_result_filenames>N</add_to_result_filenames>
     <file>
-      <name>&#x24;&#x7b;DATA_INPUT&#x7d;&#x5c;series.txt</name>
+      <name>&#x24;&#x7b;DATA_INPUT&#x7d;&#x5c;plant.txt</name>
       <filemask/>
       <exclude_filemask/>
       <file_required>N</file_required>
