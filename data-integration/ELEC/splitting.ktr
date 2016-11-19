@@ -344,7 +344,7 @@
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
-    <copies>4</copies>
+    <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
