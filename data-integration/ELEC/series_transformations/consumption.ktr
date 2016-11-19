@@ -89,7 +89,9 @@
     <index_tablespace/>
     <attributes>
       <attribute><code>EXTRA_OPTION_MYSQL.defaultFetchSize</code><attribute>500</attribute></attribute>
+      <attribute><code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code><attribute>true</attribute></attribute>
       <attribute><code>EXTRA_OPTION_MYSQL.useCursorFetch</code><attribute>true</attribute></attribute>
+      <attribute><code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code><attribute>false</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
@@ -103,20 +105,20 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>read consumption</from><to>consumption json</to><enabled>Y</enabled> </hop>
-  <hop> <from>Period-Con 2</from><to>State-Con 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>extract date&#x26;amount &#x28;Cons&#x29; 2</from><to>get date-segments</to><enabled>Y</enabled> </hop>
-  <hop> <from>get date-segments</from><to>Period-Con 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>State-Con 2</from><to>CON-Table 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>consumption json</from><to>extract date&#x26;amount &#x28;Cons&#x29; 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>read consumption.txt</from><to>json parse</to><enabled>Y</enabled> </hop>
+  <hop> <from>Period</from><to>State</to><enabled>Y</enabled> </hop>
+  <hop> <from>extract date&#x26;amount</from><to>get date-segments</to><enabled>Y</enabled> </hop>
+  <hop> <from>get date-segments</from><to>Period</to><enabled>Y</enabled> </hop>
+  <hop> <from>State</from><to>Table</to><enabled>Y</enabled> </hop>
+  <hop> <from>json parse</from><to>extract date&#x26;amount</to><enabled>Y</enabled> </hop>
   </order>
   <step>
-    <name>CON-Table 2</name>
+    <name>Table</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
-    <copies>8</copies>
+    <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
@@ -124,7 +126,7 @@
     <connection>pse</connection>
     <schema/>
     <table>consumption</table>
-    <commit>20000</commit>
+    <commit>10000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
@@ -162,14 +164,14 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>848</xloc>
+      <xloc>880</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Period-Con 2</name>
+    <name>Period</name>
     <type>CombinationLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -182,7 +184,7 @@
       <schema/>
       <table>period</table>
       <connection>pse</connection>
-      <commit>100</commit>
+      <commit>1</commit>
       <cache_size>9999</cache_size>
       <replace>N</replace>
       <preloadCache>N</preloadCache>
@@ -211,14 +213,14 @@
       <last_update_field/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>624</xloc>
+      <xloc>640</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>State-Con 2</name>
+    <name>State</name>
     <type>CombinationLookup</type>
     <description/>
     <distribute>N</distribute>
@@ -231,7 +233,7 @@
       <schema/>
       <table>state</table>
       <connection>pse</connection>
-      <commit>100</commit>
+      <commit>1</commit>
       <cache_size>9999</cache_size>
       <replace>N</replace>
       <preloadCache>N</preloadCache>
@@ -252,19 +254,19 @@
       <last_update_field/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>720</xloc>
+      <xloc>736</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>consumption json</name>
+    <name>json parse</name>
     <type>JsonInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
-    <copies>2</copies>
+    <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
@@ -446,19 +448,19 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>208</xloc>
+      <xloc>224</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>extract date&#x26;amount &#x28;Cons&#x29; 2</name>
+    <name>extract date&#x26;amount</name>
     <type>JsonInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
-    <copies>2</copies>
+    <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
@@ -523,7 +525,7 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>352</xloc>
+      <xloc>368</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>
@@ -535,7 +537,7 @@
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
-    <copies>2</copies>
+    <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
@@ -584,19 +586,19 @@
 </calculation>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>496</xloc>
+      <xloc>512</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>read consumption</name>
+    <name>read consumption.txt</name>
     <type>TextFileInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
-    <copies>2</copies>
+    <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
