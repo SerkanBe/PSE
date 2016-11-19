@@ -1,0 +1,36 @@
+<Schema name="ELEC NET GEN">
+  <Cube name="ELEC Generation" visible="true" cache="true" enabled="true">
+    <Table name="elec_net_gen">
+    </Table>
+    <Dimension type="StandardDimension" visible="true" foreignKey="fuel" highCardinality="false" name="fuel-type">
+      <Hierarchy name="Fuel-Type" visible="true" hasAll="true">
+        <Table name="fuel" alias="fuel">
+        </Table>
+        <Level name="type" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never" caption="FuelCaption">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="period" highCardinality="false" name="period">
+      <Hierarchy name="Period" visible="true" hasAll="true">
+        <Table name="period">
+        </Table>
+        <Level name="year" visible="true" table="period" column="year" nameColumn="year" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="month" visible="true" table="period" column="month" nameColumn="month" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="quarter" visible="true" table="period" column="quarter" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="sector" highCardinality="false" name="sector">
+      <Hierarchy name="sector" visible="true" hasAll="true">
+        <Table name="gen_cons_sector">
+        </Table>
+        <Level name="sector" visible="true" table="gen_cons_sector" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Measure name="Energy" column="amount" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+  </Cube>
+</Schema>
