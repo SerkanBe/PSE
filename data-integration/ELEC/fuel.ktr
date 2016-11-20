@@ -77,7 +77,7 @@
   </notepads>
   <connection>
     <name>PSE</name>
-    <server>localhost</server>
+    <server>127.0.0.1</server>
     <type>MYSQL</type>
     <access>Native</access>
     <database>pse</database>
@@ -113,11 +113,11 @@
   <hop> <from>Consumption Fuel IN</from><to>Parent Null&#x3f; 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Parent Null&#x3f; 2</from><to>wait for delete</to><enabled>Y</enabled> </hop>
   <hop> <from>wait for delete</from><to>Insert &#x2f; Update</to><enabled>Y</enabled> </hop>
-  <hop> <from>Memory Group by</from><to>Block this step until steps finish</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish</from><to>Update dest-table</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>wait for Insert&#x2f;Update</to><enabled>Y</enabled> </hop>
+  <hop> <from>wait for Insert&#x2f;Update</from><to>Update dest-table</to><enabled>Y</enabled> </hop>
   </order>
   <step>
-    <name>Block this step until steps finish</name>
+    <name>wait for Insert&#x2f;Update</name>
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
@@ -135,8 +135,8 @@
       </steps>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>570</xloc>
-      <yloc>120</yloc>
+      <xloc>540</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -332,8 +332,8 @@
     </arguments>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>570</xloc>
-      <yloc>240</yloc>
+      <xloc>540</xloc>
+      <yloc>120</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
