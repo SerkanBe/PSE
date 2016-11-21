@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>Alles</name>
+  <name>all_transformations</name>
     <description/>
     <extended_description/>
     <job_version/>
@@ -64,8 +64,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>180</xloc>
-      <yloc>150</yloc>
+      <xloc>330</xloc>
+      <yloc>30</yloc>
       </entry>
     <entry>
       <name>elec_net_gen</name>
@@ -97,8 +97,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>180</xloc>
-      <yloc>270</yloc>
+      <xloc>420</xloc>
+      <yloc>30</yloc>
       </entry>
     <entry>
       <name>elec_retail</name>
@@ -130,8 +130,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>180</xloc>
-      <yloc>390</yloc>
+      <xloc>510</xloc>
+      <yloc>30</yloc>
       </entry>
     <entry>
       <name>START</name>
@@ -183,8 +183,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>60</xloc>
-      <yloc>150</yloc>
+      <xloc>150</xloc>
+      <yloc>30</yloc>
       </entry>
     <entry>
       <name>categories</name>
@@ -216,8 +216,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>60</xloc>
-      <yloc>270</yloc>
+      <xloc>240</xloc>
+      <yloc>30</yloc>
       </entry>
     <entry>
       <name>fuel</name>
@@ -249,8 +249,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>60</xloc>
-      <yloc>390</yloc>
+      <xloc>690</xloc>
+      <yloc>30</yloc>
       </entry>
     <entry>
       <name>gen_com_sector</name>
@@ -282,8 +282,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>60</xloc>
-      <yloc>510</yloc>
+      <xloc>780</xloc>
+      <yloc>30</yloc>
       </entry>
     <entry>
       <name>plant</name>
@@ -315,8 +315,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>180</xloc>
-      <yloc>510</yloc>
+      <xloc>600</xloc>
+      <yloc>30</yloc>
       </entry>
   </entries>
   <hops>
@@ -332,33 +332,6 @@
     <hop>
       <from>Splitting</from>
       <to>categories</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>categories</from>
-      <to>fuel</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>fuel</from>
-      <to>gen_com_sector</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>gen_com_sector</from>
-      <to>Consumption</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -386,6 +359,33 @@
     <hop>
       <from>elec_retail</from>
       <to>plant</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>categories</from>
+      <to>Consumption</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>plant</from>
+      <to>fuel</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>fuel</from>
+      <to>gen_com_sector</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
