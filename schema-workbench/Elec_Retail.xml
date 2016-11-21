@@ -1,0 +1,28 @@
+<Schema name="ELEC RETAIL">
+  <Cube name="Elec Retail" visible="true" cache="true" enabled="true">
+    <Table name="elec_retail" alias="">
+    </Table>
+    <Dimension type="StandardDimension" visible="true" foreignKey="period" name="period">
+      <Hierarchy name="period" visible="true" hasAll="true">
+        <Table name="period" alias="">
+        </Table>
+        <Level name="year" visible="true" table="period" column="year" nameColumn="year" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="month" visible="true" table="period" column="month" nameColumn="month" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="quarter" visible="true" table="period" column="quarter" nameColumn="quarter" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="sector" name="sector">
+      <Hierarchy name="sector" visible="true" hasAll="true">
+        <Table name="retail_sector" alias="">
+        </Table>
+        <Level name="sector" visible="true" table="retail_sector" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Measure name="energy" column="amount" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+  </Cube>
+</Schema>

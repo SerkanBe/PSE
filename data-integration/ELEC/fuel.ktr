@@ -136,8 +136,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>90</xloc>
-      <yloc>240</yloc>
+      <xloc>0</xloc>
+      <yloc>608</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
