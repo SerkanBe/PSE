@@ -1,8 +1,8 @@
-<Schema name="PLANT GEN">
-  <Cube name="Plant Gen" visible="true" cache="true" enabled="true">
-    <Table name="plant_gen" alias="">
+<Schema name="PLANT CONS">
+  <Cube name="Plant_Cons" visible="true" cache="true" enabled="true">
+    <Table name="plant_cons" alias="">
     </Table>
-    <Dimension type="StandardDimension" visible="true" foreignKey="period" name="periode">
+    <Dimension type="StandardDimension" visible="true" foreignKey="period" name="period">
       <Hierarchy name="period" visible="true" hasAll="true">
         <Table name="period" alias="">
         </Table>
@@ -14,11 +14,11 @@
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="fuel" name="fuel-type">
-      <Hierarchy name="fuel-type" visible="true" hasAll="true">
-        <Table name="fuel" alias="">
-        </Table>
-        <Level name="type" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" caption="FuelCaption">
+    <Dimension type="StandardDimension" visible="true" name="position">
+      <Hierarchy name="position" visible="true" hasAll="true">
+        <Level name="lat" visible="true" column="lat" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="lon" visible="true" column="lon" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
@@ -26,11 +26,11 @@
       <Hierarchy name="state" visible="true" hasAll="true">
         <Table name="state" alias="">
         </Table>
-        <Level name="state" visible="true" table="state" column="id" nameColumn="name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        <Level name="state" visible="true" table="state" column="name" nameColumn="name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Measure name="energy" column="amount" datatype="Numeric" aggregator="sum" visible="true">
+    <Measure name="Energy" column="amount" datatype="Numeric" aggregator="sum" visible="true">
     </Measure>
   </Cube>
 </Schema>
