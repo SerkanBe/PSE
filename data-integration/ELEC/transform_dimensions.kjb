@@ -121,7 +121,7 @@
       <yloc>240</yloc>
       </entry>
     <entry>
-      <name>gen_com_sector</name>
+      <name>gen_con_sector</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
@@ -160,7 +160,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>704</xloc>
+      <xloc>768</xloc>
       <yloc>240</yloc>
       </entry>
     <entry>
@@ -193,7 +193,40 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>576</xloc>
+      <xloc>640</xloc>
+      <yloc>240</yloc>
+      </entry>
+    <entry>
+      <name>retail_sector</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>C&#x3a;&#x5c;pentaho&#x5c;PSE&#x5c;data-integration&#x5c;ELEC&#x5c;dimensions&#x5c;retail_sector.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>544</xloc>
       <yloc>240</yloc>
       </entry>
   </entries>
@@ -218,16 +251,7 @@
     </hop>
     <hop>
       <from>fuel</from>
-      <to>gen_com_sector</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>gen_com_sector</from>
-      <to>plant</to>
+      <to>gen_con_sector</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -237,6 +261,24 @@
     <hop>
       <from>plant</from>
       <to>Success</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>gen_con_sector</from>
+      <to>retail_sector</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>retail_sector</from>
+      <to>plant</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
