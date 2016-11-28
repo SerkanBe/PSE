@@ -84,7 +84,7 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>160</xloc>
+      <xloc>192</xloc>
       <yloc>288</yloc>
       </entry>
     <entry>
@@ -93,7 +93,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;transform_facts.kjb</filename>
+      <filename>C&#x3a;&#x5c;pentaho&#x5c;PSE&#x5c;data-integration&#x5c;ELEC&#x5c;transform_facts.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -115,7 +115,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>272</xloc>
+      <xloc>304</xloc>
       <yloc>288</yloc>
       </entry>
     <entry>
@@ -124,7 +124,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;transform_dimensions.kjb</filename>
+      <filename>C&#x3a;&#x5c;pentaho&#x5c;PSE&#x5c;data-integration&#x5c;ELEC&#x5c;transform_dimensions.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -146,7 +146,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>384</xloc>
+      <xloc>416</xloc>
       <yloc>288</yloc>
       </entry>
   </entries>

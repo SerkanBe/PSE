@@ -109,7 +109,6 @@
   </connection>
   <order>
   <hop> <from>Period</from><to>State</to><enabled>Y</enabled> </hop>
-  <hop> <from>get date-segments</from><to>Period</to><enabled>Y</enabled> </hop>
   <hop> <from>read plant_gen.txt</from><to>json parse</to><enabled>Y</enabled> </hop>
   <hop> <from>json parse</from><to>extract date&#x26;amount</to><enabled>Y</enabled> </hop>
   <hop> <from>State</from><to>Plant</to><enabled>Y</enabled> </hop>
@@ -118,6 +117,7 @@
   <hop> <from>Extract info in name</from><to>get date-segments</to><enabled>Y</enabled> </hop>
   <hop> <from>Plant</from><to>fuel</to><enabled>Y</enabled> </hop>
   <hop> <from>fuel</from><to>Table</to><enabled>Y</enabled> </hop>
+  <hop> <from>get date-segments</from><to>Period</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Extract info in name</name>
@@ -483,7 +483,7 @@
       <schema/>
       <table>fuel</table>
       <connection>pse</connection>
-      <commit>100</commit>
+      <commit>1</commit>
       <cache_size>9999</cache_size>
       <replace>N</replace>
       <preloadCache>N</preloadCache>
