@@ -1,6 +1,6 @@
 <Schema name="PLANT CONS">
-  <Cube name="Plant_Cons" visible="true" cache="true" enabled="true">
-    <Table name="plant_cons" alias="">
+  <Cube name="Plant_Consumption" visible="true" cache="true" enabled="true">
+    <Table name="plant_cons">
     </Table>
     <Dimension type="StandardDimension" visible="true" foreignKey="period" highCardinality="false" name="period">
       <Hierarchy name="period" visible="true" hasAll="true">
@@ -22,17 +22,17 @@
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="fuel" name="fuel-type">
+    <Dimension type="StandardDimension" visible="true" foreignKey="fuel" highCardinality="false" name="fuel-type">
       <Hierarchy name="fuel-type" visible="true" hasAll="true">
-        <Table name="fuel" alias="">
+        <Table name="fuel">
         </Table>
         <Level name="type" visible="true" table="fuel" column="id" nameColumn="name" parentColumn="parent" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never" caption="FuelCaption">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="plant" name="Plant">
+    <Dimension type="StandardDimension" visible="true" foreignKey="plant" highCardinality="false" name="Plant">
       <Hierarchy name="plant" visible="true" hasAll="true">
-        <Table name="plant" alias="">
+        <Table name="plant">
         </Table>
         <Level name="name" visible="true" table="plant" column="id" nameColumn="name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
