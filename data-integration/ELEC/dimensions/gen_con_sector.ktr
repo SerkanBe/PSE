@@ -112,7 +112,7 @@
   <hop> <from>Memory Group by</from><to>wait for Insert&#x2f;Update</to><enabled>Y</enabled> </hop>
   <hop> <from>Parent is root gen-sector</from><to>wait for delete</to><enabled>Y</enabled> </hop>
   <hop> <from>get series_ids</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
-  <hop> <from>Consumption Sector IN</from><to>Parent is root cons-sector</to><enabled>N</enabled> </hop>
+  <hop> <from>Consumption Sector IN</from><to>Parent is root cons-sector</to><enabled>Y</enabled> </hop>
   <hop> <from>wait for Insert&#x2f;Update</from><to>Update dest-table</to><enabled>Y</enabled> </hop>
   <hop> <from>get series_ids</from><to>error getting series_id</to><enabled>Y</enabled> </hop>
   <hop> <from>Parent is root cons-sector</from><to>wait for delete</to><enabled>Y</enabled> </hop>
