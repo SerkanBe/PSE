@@ -80,7 +80,6 @@
   <hop> <from>Filter Retail</from><to>elec_retail</to><enabled>Y</enabled> </hop>
   <hop> <from>series</from><to>JSON Input</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Consumption</from><to>consumption</to><enabled>Y</enabled> </hop>
-  <hop> <from>filtered series_ids</from><to>filter generation</to><enabled>Y</enabled> </hop>
   <hop> <from>Read line</from><to>is series</to><enabled>Y</enabled> </hop>
   <hop> <from>is series</from><to>is category</to><enabled>Y</enabled> </hop>
   <hop> <from>is category</from><to>is geoset</to><enabled>Y</enabled> </hop>
@@ -100,6 +99,9 @@
   <hop> <from>Dummy &#x28;do nothing&#x29;</from><to>Filter Plant.Cons</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Plant.GEN</from><to>plant_gen</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Plant.Cons</from><to>plant_cons</to><enabled>Y</enabled> </hop>
+  <hop> <from>filter out multiple state rows</from><to>filter out &#x22;USA&#x22; as state</to><enabled>Y</enabled> </hop>
+  <hop> <from>filter out &#x22;USA&#x22; as state</from><to>filter generation</to><enabled>Y</enabled> </hop>
+  <hop> <from>filtered series_ids</from><to>filter out multiple state rows</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Dummy &#x28;do nothing&#x29;</name>
@@ -395,6 +397,19 @@
       <field>
         <name>f</name>
         <path>&#x24;.f</path>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>state</name>
+        <path>geography</path>
         <type>String</type>
         <format/>
         <currency/>
@@ -876,8 +891,66 @@
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>540</xloc>
-      <yloc>90</yloc>
+      <xloc>384</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>filter out &#x22;USA&#x22; as state</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to/>
+<send_false_to>filter generation</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>state</leftvalue>
+ <function>&#x3d;</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>USA</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>720</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>filter out multiple state rows</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to/>
+<send_false_to>filter out &#x22;USA&#x22; as state</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>state</leftvalue>
+ <function>CONTAINS</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>&#x2b;</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>576</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -895,8 +968,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>690</xloc>
-      <yloc>90</yloc>
+      <xloc>576</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
