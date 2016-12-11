@@ -88,10 +88,9 @@
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
-<attribute><code>EXTRA_OPTION_MYSQL.defaultFetchSize</code><attribute>500</attribute></attribute>
+      <attribute><code>EXTRA_OPTION_MYSQL.defaultFetchSize</code><attribute>500</attribute></attribute>
       <attribute><code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code><attribute>true</attribute></attribute>
       <attribute><code>EXTRA_OPTION_MYSQL.useCursorFetch</code><attribute>true</attribute></attribute>
-      <attribute><code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code><attribute>false</attribute></attribute>
       <attribute><code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code><attribute>false</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
@@ -107,11 +106,12 @@
   </connection>
   <order>
   <hop> <from>Period</from><to>State</to><enabled>Y</enabled> </hop>
-  <hop> <from>extract date&#x26;amount</from><to>get date-segments</to><enabled>Y</enabled> </hop>
   <hop> <from>get date-segments</from><to>Period</to><enabled>Y</enabled> </hop>
   <hop> <from>read elec_net_gen.txt</from><to>json parse</to><enabled>Y</enabled> </hop>
   <hop> <from>State</from><to>Table</to><enabled>Y</enabled> </hop>
   <hop> <from>json parse</from><to>extract date&#x26;amount</to><enabled>Y</enabled> </hop>
+  <hop> <from>extract date&#x26;amount</from><to>rename states</to><enabled>Y</enabled> </hop>
+  <hop> <from>rename states</from><to>get date-segments</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Period</name>
@@ -332,7 +332,7 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>368</xloc>
+      <xloc>336</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>
@@ -393,7 +393,7 @@
 </calculation>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>512</xloc>
+      <xloc>544</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>
@@ -691,6 +691,38 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>96</xloc>
+      <yloc>160</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>rename states</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>geography</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>USA-</replace_string>
+        <replace_by_string>US-</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>448</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
       </GUI>

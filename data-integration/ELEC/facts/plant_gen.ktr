@@ -112,12 +112,13 @@
   <hop> <from>read plant_gen.txt</from><to>json parse</to><enabled>Y</enabled> </hop>
   <hop> <from>json parse</from><to>extract date&#x26;amount</to><enabled>Y</enabled> </hop>
   <hop> <from>State</from><to>Plant</to><enabled>Y</enabled> </hop>
-  <hop> <from>extract date&#x26;amount</from><to>Extract plant_id</to><enabled>Y</enabled> </hop>
   <hop> <from>Extract plant_id</from><to>Extract info in name</to><enabled>Y</enabled> </hop>
   <hop> <from>Extract info in name</from><to>get date-segments</to><enabled>Y</enabled> </hop>
   <hop> <from>Plant</from><to>fuel</to><enabled>Y</enabled> </hop>
   <hop> <from>fuel</from><to>Table</to><enabled>Y</enabled> </hop>
   <hop> <from>get date-segments</from><to>Period</to><enabled>Y</enabled> </hop>
+  <hop> <from>extract date&#x26;amount</from><to>rename states</to><enabled>Y</enabled> </hop>
+  <hop> <from>rename states</from><to>Extract plant_id</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Extract info in name</name>
@@ -859,6 +860,38 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>64</xloc>
       <yloc>48</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>rename states</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>geography</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>USA-</replace_string>
+        <replace_by_string>US-</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>208</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
