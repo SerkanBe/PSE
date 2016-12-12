@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>jVectorMap demo</title>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+	<link rel="stylesheet" href="jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" type="text/css" href="mystyle.css">
+	
+	
+	<script src="jquery-3.1.1.js"></script>
+	<script src="jquery-jvectormap-2.0.3.min.js"></script>
+	<script src="jquery-jvectormap-us-aea.js"></script>
+<!-- custom jVectorMap Init -->
+	<script src="jquery-initUsMap.js"></script>
+	
+<!-- googleCharts init -->
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>	
+	
+<!-- GoogleCharts DonutChart -->	
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['fuel', 'amount'],
+          ['biomass', 5],
+          ['nuclear',12],
+          ['coal',   25],
+          ['wind',    2],
+          ['solar',   7]
+        ]);
+
+        var options = {
+          title: 'fuel distribution',
+          pieHole: 0.4,
+		  colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
+		  backgroundColor: 'transparent',
+		  fontName: 'LFT Etica',
+		  fontSize: '26',
+		  titleTextStyle: {
+			color: '#FFF'
+		  },
+		  chartArea:{left:15,top:5,width:'100%',height:'100%'}
+		};
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+      }
+    </script>
+	
+<!-- GoogleCharts LineChart -->
+	<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales', 'Expenses'],
+          ['2004',  1000,      400],
+          ['2005',  1170,      460],
+          ['2006',  660,       1120],
+          ['2007',  1030,      540]
+        ]);
+
+        var options = {
+          title: 'LineChart: Amount-for-all-Years-Overview: No Interaction',
+          curveType: 'function',
+          legend: { position: 'bottom' },
+		  backgroundColor: 'transparent',
+		  fontName: 'LFT Etica',
+		  fontSize: '26',
+		  titleTextStyle: {
+			color: '#FFF'
+		  },
+		  hAxis: {
+			textStyle:{color: '#FFF'}
+		  }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+  
+</head>
+<body>
+	<div class="w3-container">
+		<h2>EIA Dashboard</h2>
+	</div>
+	
+	<div class="w3-row">
+		<div class="w3-container w3-twothird w3-card-4" id="us-map" style="width: 1000px ; height: 600px"></div>
+		<div class="w3-container w3-third w3-card-4" id ="textarea" style="width: 400px ; height: 600px">
+			<h3>
+				Panel2: basic info<br />
+				Panel interactions:<br />
+				-listens to changes of StateSelection in Panel2<br />
+				-listens to changes in timeline<br />
+				panel elements:<br />
+				-Textfield with following INFO:<br />
+				(all elements show info only for selected year)<br />
+				+plant gen total<br />
+				+plant gen per sector<br />
+				+plant consumption total<br />
+				+plant consumption per sector<br />
+				+elec retail total<br />
+				+elec retail per sector
+			</h3>
+		</div>
+	</div>
+	<div class="slider" id="slider" style="width: 100vh; margin: 10px"></div>
+	<div class="w3-row">
+		<div class="w3-container w3-twothird w3-card-4" id="curve_chart" style="width: 1000px; height: 400px"></div>
+		<div class="w3-container w3-third w3-card-4" id="donutchart" style="width: 400; height: 400px"></div>
+	</div>
+	
+</body>
+</html>
