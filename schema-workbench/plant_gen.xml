@@ -30,11 +30,11 @@
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="plant" name="plant">
+    <Dimension type="StandardDimension" visible="true" foreignKey="plant" highCardinality="false" name="plant">
       <Hierarchy name="plant" visible="true" hasAll="true">
-        <Table name="plant" alias="">
+        <Table name="plant">
         </Table>
-        <Level name="name" visible="true" table="plant" column="id" nameColumn="name" type="String" uniqueMembers="false" levelType="Regular">
+        <Level name="name" visible="true" table="plant" column="id" nameColumn="name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
