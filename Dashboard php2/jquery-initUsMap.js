@@ -54,7 +54,7 @@ $(function initUsMap(){
       }
     },
   markers: [
-      {latLng: [36.169941, -115.139830], name: 'Vatican City'}
+      {latLng: [36.169941, -115.139830], name: 'Las Vegas'}
      
     ]
   
