@@ -21,12 +21,26 @@
 	
 <!-- /////////////////// general googleCharts init-script linking /////////////////// -->
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>	
+
+<!-- ///////////////////Load the AJAX API ///////////////////-->
+	
+    <!-- <script type="text/javascript" src="https://www.google.com/jsapi"></script> -->
+    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
 	
 <!-- /////////////////// GoogleCharts DonutChart script /////////////////// -->	
      <script type="text/javascript">
+	 
+// Load the Visualization API and the piechart package.
       google.charts.load("current", {packages:["corechart"]});
+	  
+// Set a callback to run when the Google Visualization API is loaded.
       google.charts.setOnLoadCallback(drawChart);
+// Callback that creates and populates a data table,
+// instantiates the pie chart, passes in the data and
+// draws it.
       function drawChart() {
+	  
+// Create our data table (...later: out of JSON data loaded from server.)
         var data = google.visualization.arrayToDataTable([
           ['fuel', 'amount'],
           ['biomass', 5],
@@ -35,7 +49,13 @@
           ['wind',    2],
           ['solar',   7]
         ]);
-
+// FIXED DATACOLUMN HEADING
+		//data.addColumn("string", "FuelNum");
+		//data.addColumn("number", "Percent");
+// DATA FETCHED within PHP DOCUMENT
+		//data.addRows(<?php $data ?>);
+		
+// Set chart options		
         var options = {
           title: 'fuel distribution',
           pieHole: 0.4,
@@ -48,7 +68,8 @@
 		  },
 		  chartArea:{left:15,top:5,width:'100%',height:'100%'}
 		};
-
+// Instantiate and draw our chart, passing in some options.
+//do not forget to check ur div ID
         var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
         chart.draw(data, options);
       }
@@ -91,41 +112,7 @@
 
 <!-- /////////////////// Serverbound Stuff  /////////////////// -->
 	
-    <!--Load the AJAX API-->
-	
-    <!-- <script type="text/javascript" src="https://www.google.com/jsapi"></script> -->
-    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
-	
-    <!-- <script type="text/javascript">
-
-		// Load the Visualization API and the piechart package.
-		google.load('visualization', '1', {'packages':['corechart']});
-
-		// Set a callback to run when the Google Visualization API is loaded.
-		google.setOnLoadCallback(drawChart);
-
-		function drawChart() {
-
-		  // Create our data table out of JSON data loaded from server.
-		 var data = new google.visualization.DataTable();
-			data.addColumn("string", "FuelNum");
-			data.addColumn("number", "Percent");
-
-			data.addRows(<?php $data ?>);
-
-			]); 
-		  var options = {
-			   title: 'Fuel stuff',
-			  is3D: 'false',
-			  width: 800,
-			  height: 600
-			};
-		  // Instantiate and draw our chart, passing in some options.
-		  //do not forget to check ur div ID
-		  var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-		  chart.draw(data, options);
-		}
-    </script> -->
+  
   
 </head>
 <!-- /////////////////// HTML BODY & CSS STUFF /////////////////// -->
@@ -135,14 +122,18 @@
 	</div>
 <!-- /////////////////// DASHBAORD CARDS & ELEMENTS/////////////////// -->
 	<div class="w3-row">
+		<!--Div that will holds the US-Map -->
 		<div class="w3-container w3-twothird w3-card-4" id="us-map" style="width: 1000px ; height: 600px"></div>
+		<!--Div that will holds the InfoTextArea -->
 		<div class="w3-container w3-third w3-card-4" id ="textarea" style="width: 400px ; height: 600px">
 			<h3>TEXTAREA INFOTEXT HERE<br /></h3>
 		</div>
 	</div>
 	<div class="slider" id="slider" style="width: 100vh; margin: 10px"></div>
 	<div class="w3-row">
+		<!--Div that will holds the curvechart-->
 		<div class="w3-container w3-twothird w3-card-4" id="curve_chart" style="width: 1000px; height: 400px"></div>
+		<!--Div that will holds the donutchart-->
 		<div class="w3-container w3-third w3-card-4" id="donutchart" style="width: 400; height: 400px"></div>
 	</div>
 	
