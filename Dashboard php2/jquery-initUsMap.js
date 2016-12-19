@@ -1,10 +1,10 @@
 $(function initUsMap(){
   $('#us-map').vectorMap({map: 'us_aea',
   
-  /* scaleColors: ['#C8EEFF', '#0071A4'], */
-   /*  normalizeFunction: 'polynomial', */
-   /*  hoverOpacity: 0.7, */
-    /* hoverColor: false, */
+  scaleColors: ['#C8EEFF', '#0071A4'], 
+  normalizeFunction: 'polynomial', 
+  hoverOpacity: 0.7, 
+  hoverColor: false, 
   
   backgroundColor: '#d3d3d3',
   
@@ -54,19 +54,8 @@ $(function initUsMap(){
       }
     },
   markers: [
-      {latLng: [36.169941, -115.139830], name: 'Vatican City'}
+      {latLng: [36.169941, -115.139830], name: 'Las Vegas'}
      
     ]
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   });
   });

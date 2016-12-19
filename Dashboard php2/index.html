@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-	
+<!-- /////////////////// META info & Title /////////////////// -->
 	<title>jVectorMap demo</title>
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+<!-- /////////////////// CSS linking /////////////////// -->
 	
 	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 	<link rel="stylesheet" href="jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
 	<link rel="stylesheet" type="text/css" href="mystyle.css">
 	
-	
+<!-- /////////////////// jQuery script linking /////////////////// -->
 	<script src="jquery-3.1.1.js"></script>
 	<script src="jquery-jvectormap-2.0.3.min.js"></script>
 	<script src="jquery-jvectormap-us-aea.js"></script>
-<!-- custom jVectorMap Init -->
+<!-- /////////////////// custom jVectorMap Init /////////////////// -->
 	<script src="jquery-initUsMap.js"></script>
 	
-<!-- googleCharts init -->
+<!-- /////////////////// general googleCharts init-script linking /////////////////// -->
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>	
 	
-<!-- GoogleCharts DonutChart -->	
-    <script type="text/javascript">
+<!-- /////////////////// GoogleCharts DonutChart script /////////////////// -->	
+     <script type="text/javascript">
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
       function drawChart() {
@@ -52,7 +54,7 @@
       }
     </script>
 	
-<!-- GoogleCharts LineChart -->
+<!-- /////////////////// GoogleCharts LineChart script /////////////////// -->
 	<script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
@@ -86,31 +88,56 @@
         chart.draw(data, options);
       }
     </script>
+
+<!-- /////////////////// Serverbound Stuff  /////////////////// -->
+	
+    <!--Load the AJAX API-->
+	
+    <!-- <script type="text/javascript" src="https://www.google.com/jsapi"></script> -->
+    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
+	
+    <!-- <script type="text/javascript">
+
+		// Load the Visualization API and the piechart package.
+		google.load('visualization', '1', {'packages':['corechart']});
+
+		// Set a callback to run when the Google Visualization API is loaded.
+		google.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+
+		  // Create our data table out of JSON data loaded from server.
+		 var data = new google.visualization.DataTable();
+			data.addColumn("string", "FuelNum");
+			data.addColumn("number", "Percent");
+
+			data.addRows(<?php $data ?>);
+
+			]); 
+		  var options = {
+			   title: 'Fuel stuff',
+			  is3D: 'false',
+			  width: 800,
+			  height: 600
+			};
+		  // Instantiate and draw our chart, passing in some options.
+		  //do not forget to check ur div ID
+		  var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+		  chart.draw(data, options);
+		}
+    </script> -->
   
 </head>
+<!-- /////////////////// HTML BODY & CSS STUFF /////////////////// -->
 <body>
 	<div class="w3-container">
 		<h2>EIA Dashboard</h2>
 	</div>
-	
+<!-- /////////////////// DASHBAORD CARDS & ELEMENTS/////////////////// -->
 	<div class="w3-row">
 		<div class="w3-container w3-twothird w3-card-4" id="us-map" style="width: 1000px ; height: 600px"></div>
 		<div class="w3-container w3-third w3-card-4" id ="textarea" style="width: 400px ; height: 600px">
-			<h3>
-				Panel2: basic info<br />
-				Panel interactions:<br />
-				-listens to changes of StateSelection in Panel2<br />
-				-listens to changes in timeline<br />
-				panel elements:<br />
-				-Textfield with following INFO:<br />
-				(all elements show info only for selected year)<br />
-				+plant gen total<br />
-				+plant gen per sector<br />
-				+plant consumption total<br />
-				+plant consumption per sector<br />
-				+elec retail total<br />
-				+elec retail per sector
-			</h3>
+			<h3>TEXTAREA INFOTEXT HERE<br /></h3>
 		</div>
 	</div>
 	<div class="slider" id="slider" style="width: 100vh; margin: 10px"></div>
