@@ -10,7 +10,7 @@ function column_exists($cols) {
 	global $db;
 	$tcols = $db->prepare('select COLUMN_NAME
 from INFORMATION_SCHEMA.COLUMNS
-where TABLE_NAME=elec_net_gen');
+where TABLE_NAME=elec_retail');
 
 	$tcols->execute();
 	$tcols = $tcols->fetchAll(PDO::FETCH_COLUMN);
@@ -24,7 +24,7 @@ where TABLE_NAME=elec_net_gen');
 $where_clause = '';
 $group_clause = '';
 $order_clause = '';
-$select_clause = 'p.month,p.quarter,p.year, f.name as fuel, se.name as sector, amount,st.name as state,unit';
+$select_clause = 'p.month,p.quarter,p.year, se.name as sector, amount,st.name as state,unit';
 
 $available_fields = array('year' => 'p.year','month'=>'p.month','quarter'=>'p.quarter','fuel'=>'f.name','sector'=>'se.name','state'=>'st.name');
 
@@ -35,11 +35,11 @@ $order_clause = do_order_by($_GET['order_by'],$available_fields);
 $select_clause = do_select($_GET['columns'],$_GET['aggr'],$available_fields,$select_clause);
 
 $q_str = 'SELECT '.$select_clause.'
-FROM elec_net_gen t
+FROM elec_retail t
 LEFT JOIN period p ON (p.id = t.period)
-LEFT JOIN fuel f ON (f.id = t.fuel)
 LEFT JOIN gen_cons_sector se ON (se.id = t.sector)
 LEFT JOIN state st ON (st.id = t.state)';
+
 (empty($where_clause)) ?: $q_str.= $where_clause;
 (empty($group_clause)) ?: $q_str.= $group_clause;
 (empty($order_clause)) ?: $q_str.= $order_clause;
