@@ -49,7 +49,6 @@ LEFT JOIN state st ON (st.id = t.state)';
 (empty($group_clause)) ?: $q_str.= $group_clause;
 (empty($order_clause)) ?: $q_str.= $order_clause;
 
-echo $q_str.'<br>';
 $query = $db->prepare($q_str);
 $query->execute(array('fuel'));
 
