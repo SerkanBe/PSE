@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>Generation&#x2f;Consumption Sector</name>
+    <name>retail_sector</name>
     <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
-    <trans_status>0</trans_status>
     <directory>&#x2f;</directory>
     <parameters>
     </parameters>
@@ -67,16 +66,16 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2016&#x2f;11&#x2f;05 19&#x3a;58&#x3a;20.425</created_date>
+  <created_date>2016&#x2f;11&#x2f;21 12&#x3a;47&#x3a;23.979</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2016&#x2f;11&#x2f;05 19&#x3a;58&#x3a;20.425</modified_date>
+  <modified_date>2016&#x2f;11&#x2f;21 12&#x3a;47&#x3a;23.979</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
-    <name>PSE</name>
+    <name>pse</name>
     <server>localhost</server>
     <type>MYSQL</type>
     <access>Native</access>
@@ -89,10 +88,7 @@
     <index_tablespace/>
     <attributes>
       <attribute><code>EXTRA_OPTION_MYSQL.defaultFetchSize</code><attribute>500</attribute></attribute>
-      <attribute><code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code><attribute>true</attribute></attribute>
-      <attribute><code>EXTRA_OPTION_MYSQL.useCompression</code><attribute>true</attribute></attribute>
       <attribute><code>EXTRA_OPTION_MYSQL.useCursorFetch</code><attribute>true</attribute></attribute>
-      <attribute><code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code><attribute>false</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
@@ -106,16 +102,16 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>wait for delete</from><to>get series_ids</to><enabled>Y</enabled> </hop>
-  <hop> <from>wait for delete</from><to>Insert &#x2f; Update</to><enabled>Y</enabled> </hop>
-  <hop> <from>net-gen sector IN</from><to>Parent Null&#x3f;</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block this step until steps finish</from><to>Update dest-table</to><enabled>Y</enabled> </hop>
   <hop> <from>Memory Group by</from><to>Block this step until steps finish</to><enabled>Y</enabled> </hop>
   <hop> <from>Parent Null&#x3f;</from><to>wait for delete</to><enabled>Y</enabled> </hop>
   <hop> <from>get series_ids</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
-  <hop> <from>Consumption Sector IN</from><to>Parent is root&#x3f;</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish</from><to>Update dest-table</to><enabled>Y</enabled> </hop>
   <hop> <from>get series_ids</from><to>error getting series_id</to><enabled>Y</enabled> </hop>
-  <hop> <from>Parent is root&#x3f;</from><to>wait for delete</to><enabled>Y</enabled> </hop>
+  <hop> <from>retail sector IN</from><to>Parent Null&#x3f;</to><enabled>Y</enabled> </hop>
+  <hop> <from>wait for delete</from><to>Insert &#x2f; Update</to><enabled>Y</enabled> </hop>
+  <hop> <from>wait for delete</from><to>get series_ids</to><enabled>Y</enabled> </hop>
+  <hop> <from>Wait for update</from><to>Delete rows without sector</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update dest-table</from><to>Wait for update</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Block this step until steps finish</name>
@@ -136,34 +132,8 @@
       </steps>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>630</xloc>
-      <yloc>300</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Consumption Sector IN</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>PSE</connection>
-    <sql>SELECT parent.id, parent.parent, parent.name, child.childseries, &#x27;consumption&#x27; as dest_table&#xd;&#xa;FROM category child&#xd;&#xa;LEFT JOIN category parent ON &#x28;parent.id &#x3d; child.parent&#x29;&#xd;&#xa;WHERE child.path LIKE &#x27;371&#x2f;0&#x2f;35&#x2f;378&#x2f;&#x25;&#x2f;&#x27;&#xd;&#xa;ORDER BY parent.path_depth ASC, parent.parent ASC&#x3b;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>90</xloc>
-      <yloc>300</yloc>
+      <xloc>768</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -179,12 +149,12 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>PSE</connection>
+    <connection>pse</connection>
     <commit>100</commit>
     <update_bypassed>N</update_bypassed>
     <lookup>
       <schema/>
-      <table>gen_cons_sector</table>
+      <table>retail_sector</table>
       <key>
         <name>id</name>
         <field>id</field>
@@ -209,8 +179,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>480</xloc>
-      <yloc>180</yloc>
+      <xloc>576</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -248,8 +218,8 @@
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>480</xloc>
-      <yloc>300</yloc>
+      <xloc>576</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -268,38 +238,13 @@
     <fields>
       <field>
         <name>parent</name>
-        <value>2</value>
+        <value>38</value>
         </field>
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>210</xloc>
-      <yloc>180</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Parent is root&#x3f;</name>
-    <type>NullIf</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>parent</name>
-        <value>378</value>
-        </field>
-      </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>210</xloc>
-      <yloc>300</yloc>
+      <xloc>256</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -315,7 +260,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>PSE</connection>
+    <connection>pse</connection>
     <execute_each_row>Y</execute_each_row>
     <single_statement>N</single_statement>
     <replace_variables>Y</replace_variables>
@@ -333,14 +278,14 @@
     </arguments>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>630</xloc>
-      <yloc>180</yloc>
+      <xloc>768</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>delete gen_cons_sector</name>
+    <name>delete retail_sector</name>
     <type>ExecSQL</type>
     <description/>
     <distribute>Y</distribute>
@@ -350,12 +295,12 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>PSE</connection>
+    <connection>pse</connection>
     <execute_each_row>N</execute_each_row>
     <single_statement>N</single_statement>
     <replace_variables>N</replace_variables>
     <quoteString>N</quoteString>
-    <sql>&#x2f;&#x2a;DELETE FROM gen_cons_sector&#x3b;&#x2a;&#x2f;</sql>
+    <sql>&#x2f;&#x2a;DELETE FROM retail_sector&#x3b;&#x2a;&#x2f;</sql>
     <set_params>N</set_params>
     <insert_field/>
     <update_field/>
@@ -365,8 +310,8 @@
     </arguments>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>90</xloc>
-      <yloc>120</yloc>
+      <xloc>96</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -394,8 +339,8 @@
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>330</xloc>
-      <yloc>420</yloc>
+      <xloc>416</xloc>
+      <yloc>384</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -458,14 +403,14 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>330</xloc>
-      <yloc>300</yloc>
+      <xloc>416</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>net-gen sector IN</name>
+    <name>retail sector IN</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -475,8 +420,8 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>PSE</connection>
-    <sql>SELECT parent.id, parent.parent, parent.name, child.childseries, &#x27;elec_net_gen&#x27; as dest_table&#xd;&#xa;FROM category child&#xd;&#xa;LEFT JOIN category parent ON &#x28;parent.id &#x3d; child.parent&#x29;&#xd;&#xa;WHERE child.path LIKE &#x27;371&#x2f;0&#x2f;1&#x2f;2&#x2f;&#x25;&#x2f;&#x27;&#xd;&#xa;ORDER BY parent.path_depth ASC, parent.parent ASC&#x3b;</sql>
+    <connection>pse</connection>
+    <sql>SELECT id, parent, name, childseries, &#x27;elec_retail&#x27; as dest_table&#xd;&#xa;FROM category&#xd;&#xa;WHERE path LIKE &#x27;371&#x2f;0&#x2f;38&#x2f;&#x27;&#xd;&#xa;AND name NOT LIKE &#x27;&#x25; &#x28;total&#x29;&#x27;&#xd;&#xa;ORDER BY path_depth ASC, parent ASC&#x3b;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -484,8 +429,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>90</xloc>
-      <yloc>180</yloc>
+      <xloc>112</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -503,14 +448,71 @@
            </partitioning>
     <steps>
       <step>
-        <name>delete gen_cons_sector</name>
+        <name>delete retail_sector</name>
         <CopyNr>0</CopyNr>
         </step>
       </steps>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>330</xloc>
-      <yloc>180</yloc>
+      <xloc>416</xloc>
+      <yloc>144</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Wait for update</name>
+    <type>BlockingStep</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <pass_all_rows>Y</pass_all_rows>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>block</prefix>
+      <cache_size>5000</cache_size>
+      <compress>Y</compress>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>896</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Delete rows without sector</name>
+    <type>ExecSQL</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>pse</connection>
+    <execute_each_row>Y</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>Y</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>DELETE FROM &#x3f; WHERE sector IS NULL&#x3b;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+       <argument><name>dest_table</name></argument>
+    </arguments>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1008</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
