@@ -1,6 +1,7 @@
 <?php
 
-$handle = fopen("../IN_DATA/ELEC.txt","r");
+// Load the ELEC.txt to read out the structure
+$handle = fopen("../json_files/ELEC.txt","r");
 $types = array();
 $fields = array();
 $curr_line = 0;
