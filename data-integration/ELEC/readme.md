@@ -101,10 +101,96 @@ They're leftovers from experimenting with "multithreding" the filters. Just igno
 
 
 #### Categories
+This transformation is here just to keep all of this future-proof. The
+goal of this is to have the tree-structure in the database in a way we
+can easily query for "All fuel types which are used in electricity generation".
+
+Originally this isn't that easy, since each category only knows its parent,
+but now the full path up to the root. This is solved by this transformation.
+
+For each category the path to the root is determined and saved with the category.
+Along with all the child-series_ids, where we later assign the categories to.
+
+That is done as follows:
+ - Load all the categories and count the distance from the root for each
+ - We filter out the root by distance (>0)
+ - After sorting the rows by their distance, we group them by the category_id and concatenate the category_ids with '/' in between.
+ - We merge result of this with another sorted full-list of categories
+ - Now we have the original category-data and their path
+ - We add a trailing slash to the path, so we are able to query for '/%'
+
+ In this transformation we also fill the category-tree table, but that is only used for development/debug purposes.
 
 
 ### Facts
+The consumption, electricity generation and retail have basically the same transformation-process.
+Plant generation and Plant consumption have more steps, but also share a common structure.
+
+As for the first transformations, the steps are the following:
+ - Load the corresponding file
+ - Parse the json object, and read the fields we need (we load all of the fields, but don't use all of them)
+ - The step called *extract date&amount* loads the elements from the *data* array of the row.
+ For that we set the field *data* as source and set the paths to the columns. For *date* this is `$.[*][0]` and for *amount* it's `$.[*][1]`.
+ The key here is using `$.[*]` to iterate through each element of the *data* array. This can't be done in the first json-parse, since we have multiple items per row.
+ - *rename states* just renames the *geography* values by replacing 'USA-' with 'US-'. We did this just so we can work with jvectormap more easily.
+ - *get date-segments* reads the creates the month, quarter and year information out of the *date* field.
+ - The two combination lookup steps *Period* and *State* create and reference the entries for (time)-periods (because using time causes problems with mysql) and states.
+ - After that the row is written into the table of the fact.
+
+For the plant transformations we have all of the above plus some additional steps. Here are the additional ones:
+ - In *Extract plant_id* (after *rename states*) we extract the *plant_id* from the *series_id* using a regex.
+ - After that we extract *plant_name*,*plant_fuel* and *plant_type* from the *plant_name*, also using a regex.
+ - Then the combination-lookups for plants and plant_fuels do their job of creating and referencing the dimensions in their tables.
+ - Now the row goes into the corresponding plant table.
 
 ### Dimensions
+For the dimensions we have four transformations: *fuel*, *Generation/Consumption Sector*, *retail_sector* and *plant*.
+The first three do basically the same:
+ - Get the dimension-values from the categoy-table with a query, using `child.path LIKE '371/0/1/3/%/'`. This gets all the categories which come after `371/0/1/3` but have no own children.
+ - Make sure we don't set the root as parent (as the root itself isn't a value of the dimension)
+ - Lookup/Create the entry for that value in the dimension.
+ - Read the `series_id`s from the row and group them by fuel. We group them so we have one large `UPDATE` per dimension-value instead of (potentially) millions of single-row-UPDATEs.
+ - After all of the rows have been updated remove the rows without a value for that dimension.
+
+There are slight differences. For example *fuel* does use the *Lookup/Combine* step, where the other two create the rows in the dimension table with *Insert/Update*.
+This is probably because having the *Lookup/Combine* caused some dead-locks on the table. So we decided to use the other method with a blocking/waiting step.
+
+The transformations for the plants only updates the dimensions-table.
+ - Parse the json and get all the fields.
+ - Extract plant_id and information from the name (see plant transformations unter **Facts**)
+ - group the rows by plant-id. This is done in memory, meaning all the rows are read into memory and grouped after that. So might need a lot of ram for this step.
+ - After the grouping we do the state-renaming (replace 'USA-' with 'US-') and the usual dimension-refrencing (*state*,*fuel*,*type*).
 
 
+Also there is a construction handling missing lat/lon values:
+ - If the first *json parse* fails, we redirect the row to a second *json parse*. Here the lat/lon fields aren't parsed.
+ - We set them manually to 0, and after that to `NULL` with a *Null if...* step. (There was no way to directly set them to `NULL`)
+ - After that the row is processed as the other rows are.
+
+
+# Issues you might encounter
+## Database Deadlocks
+ When using the *lookup/combination* steps we got sometimes deadlocks in the database. Meaning the dimensions where waiting for a lock in the facts to get freed, while the fact was waiting for the dimensions to be freed.
+  As this came up which the dimension transformations we replaced the *lookup/combination* with a *insert/update* when it was possible (if we knew the ID/used the category-id)
+ Also we've set the commit-sizes for the *lookup/combination* steps pretty low (mostly to 1), so those wouldn't wait for more to come for a commit, while the facts wait for the dimensions to get filled up.
+ This causes the rows to pile up in front of *lookup/combination* and the whole transformation comes to an halt.
+
+## What are the "paths" of the categories good for?
+ Since the categories have parents (and therefore children), it would be the easiest way to span the tree of categories and traverse that.
+ For example the task `get all fuels used to generate electricity, regardless of sector` is a bit tricky, and we would have to list them all and update them if there is a new type of fuel.
+ Or we use the tree-like structure, create a table where we have the paths of each fuel-type, so we can go for a path like mentioned earlier : `371/0/1/3/%/`
+  - 371 : root (Don't ask me why the root is 371...)
+  - 0 : Electricity
+  - 1 : Net Generation
+  - 3 : By Fuel Type
+ So this will result in a list with all the fuel types which are used to generate electric power. There will be duplicate names, since all of the date is also grouped by sector. (`371/0/1/2/%/`)
+ But with a bit of group-by magic and concatenating this is solvable and easier to handle than a list one has to keep updated.
+
+
+ ## What is the *parent* column in the fuel-table for?
+ We were kind of fooled by the filter used in the [electricity browser](http://www.eia.gov/electricity/data/browser/) of the EIA.
+ There the fuel-types are in a tree-structure, so we assumed the same structure would be in the ELEC.txt file. But it wasn't.
+ So, this field isn't used anywhere at any time. Would have been great for queries like 'Give me all solar generation' so have a parent 'All solar'... but that's not the case.
+
+ ## I have a lot of plants with `NULL` in all of the dimensions
+ That's a bug we couldn't figure out, and it didn't bug us that much. Since the plants are in there with data also.
