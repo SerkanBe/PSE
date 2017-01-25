@@ -171,7 +171,7 @@ Also there is a construction handling missing lat/lon values:
 # Issues you might encounter
 ## Database Deadlocks
  When using the *lookup/combination* steps we got sometimes deadlocks in the database. Meaning the dimensions where waiting for a lock in the facts to get freed, while the fact was waiting for the dimensions to be freed.
-  As this came up which the dimension transformations we replaced the *lookup/combination* with a *insert/update* when it was possible (if we knew the ID/used the category-id)
+ As this came up which the dimension transformations we replaced the *lookup/combination* with a *insert/update* when it was possible (if we knew the ID/used the category-id)
  Also we've set the commit-sizes for the *lookup/combination* steps pretty low (mostly to 1), so those wouldn't wait for more to come for a commit, while the facts wait for the dimensions to get filled up.
  This causes the rows to pile up in front of *lookup/combination* and the whole transformation comes to an halt.
 
@@ -186,11 +186,10 @@ Also there is a construction handling missing lat/lon values:
  So this will result in a list with all the fuel types which are used to generate electric power. There will be duplicate names, since all of the date is also grouped by sector. (`371/0/1/2/%/`)
  But with a bit of group-by magic and concatenating this is solvable and easier to handle than a list one has to keep updated.
 
+## What is the *parent* column in the fuel-table for?
+We were kind of fooled by the filter used in the [electricity browser](http://www.eia.gov/electricity/data/browser/) of the EIA.
+There the fuel-types are in a tree-structure, so we assumed the same structure would be in the ELEC.txt file. But it wasn't.
+So, this field isn't used anywhere at any time. Would have been great for queries like 'Give me all solar generation' so have a parent 'All solar'... but that's not the case.
 
- ## What is the *parent* column in the fuel-table for?
- We were kind of fooled by the filter used in the [electricity browser](http://www.eia.gov/electricity/data/browser/) of the EIA.
- There the fuel-types are in a tree-structure, so we assumed the same structure would be in the ELEC.txt file. But it wasn't.
- So, this field isn't used anywhere at any time. Would have been great for queries like 'Give me all solar generation' so have a parent 'All solar'... but that's not the case.
-
- ## I have a lot of plants with `NULL` in all of the dimensions
- That's a bug we couldn't figure out, and it didn't bug us that much. Since the plants are in there with data also.
+## I have a lot of plants with `NULL` in all of the dimensions
+That's a bug we couldn't figure out, and it didn't bug us that much. Since the plants are in there with data also.
