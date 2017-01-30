@@ -1,7 +1,7 @@
 # PSE
 PSE WS2016/2017 Muth:  "Data-Warehouse mit Business Intelligence Dashboard"
 
-This project has transformations and schema-cubes to transform date form the EIA into a more usefull format.
+This project has transformations and schema-cubes to transform date form the EIA into a more useful format.
 In our case this format is a galaxy-schema in a MySQL-database. We also have the cubes to visualize the data using
 pentaho and SAIKU, but decided to later create our own DB-API/queries in combination with a Bootstrap-Template. 
 This is done in another repo [PSE Dashboard](https://github.com/SerkanBe/pse_dashboard)
