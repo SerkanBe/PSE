@@ -6,7 +6,7 @@ Open the all_transformations job with Pentaho-Spoon.
 Before we can start this transformation we have to set a *DATA_INPUT* variable.
 Do this via *Edit*> *Set Environment Variables*. Set *DATA_INPUT* as *Name* and the path to the ELEC.txt as *Value*.
 
-The path should be without filename or a trailing slash, for example *C:\pentaho\PSE\json_files* is a valid path.
+The path should be without filename or a trailing slash, for example *C:\pentaho\data-integration\json_files* is a valid path.
 
 When that's done you can click the start button and the transformation will start.
 If you get an error, make sure you've set up the database and installed the drivers correctly (See the database-folder).
