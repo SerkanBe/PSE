@@ -1,5 +1,5 @@
 #Data integration - Transformations
-This directory contains the Spoon/Kettle-jobs and -transformations to get from the ELEC.txt the informations we need into the database.
+This directory contains the Spoon/Kettle-jobs and -transformations to get from the [ELEC.txt](http://api.eia.gov/bulk/ELEC.zip) the informations we need into the database.
 
 ## Start the transformations
 Open the all_transformations job with Pentaho-Spoon.
